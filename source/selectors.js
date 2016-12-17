@@ -15,3 +15,7 @@ export const getAspectOptions = (state, aspect) => {
 export const getChoosenAspects = (state) => {
   return state['choosen_aspects'];
 };
+
+export const getChoosenAspectOptions = (state, aspect) => {
+  return state['choosen_aspects_options'][aspect];
+};

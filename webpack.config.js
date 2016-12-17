@@ -20,6 +20,7 @@ module.exports = {
     inline: true,
     hot: true,
     contentBase: "./public",
+    historyApiFallback: true,
     port: 3000
   }
 }

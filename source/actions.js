@@ -54,12 +54,28 @@ export const giveFeedback = (feedback = '') => {
   }
 };
 
-export const submitContactForm = (name = '', email = '', mobile = '') => {
+export const onContactNameChange = (name = '') => {
   return {
-    type: 'app/submitContactForm',
+    type: 'app/onContactNameChange',
     payload: {
-      name,
-      email,
+      name
+    }
+  }
+};
+
+export const onContactEmailChange = (email = '') => {
+  return {
+    type: 'app/onContactEmailChange',
+    payload: {
+      email
+    }
+  }
+};
+
+export const onContactMobileChange = (mobile = '') => {
+  return {
+    type: 'app/onContactMobileChange',
+    payload: {
       mobile
     }
   }

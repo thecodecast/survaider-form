@@ -10,19 +10,24 @@ import TitleView from './titleView';
 import OptionView from './optionView';
 import Footer from './footer';
 
-const AspectResponse = ({options, choosen_aspects, props}) => {
+const AspectResponse = ({options, choosen_aspects, props, choosen_aspect_options, selectAspectOption}) => {
 
   let optionsViews = options.map((title, index) => {
-    return <OptionView index={index} key={index} title={title} />
+    if (choosen_aspect_options && indexOf(index, choosen_aspect_options) !== -1) {
+      return <OptionView checked={true} onClick={selectAspectOption.bind(this, props.params.aspect, index)} index={index} key={index} title={title} />
+    }
+    else{
+      return <OptionView checked={false} onClick={selectAspectOption.bind(this, props.params.aspect, index)} index={index} key={index} title={title} />
+    }
   });
 
   let indexOfThis = indexOf(props.params.aspect, choosen_aspects);
   let nextLink = '';
   if (indexOfThis+1 === choosen_aspects.length) {
-    nextLink = 'feedback';
+    nextLink = '/feedback';
   }
   else{
-    nextLink = `aspects/${choosen_aspects[indexOfThis+1]}`
+    nextLink = `/aspects/${choosen_aspects[indexOfThis+1]}`
   }
 
   return (
@@ -57,6 +62,7 @@ const mapStateToProps = (state, props) => {
   return {
     options: selectors.getAspectOptions(state, props.params.aspect),
     choosen_aspects: selectors.getChoosenAspects(state),
+    choosen_aspect_options: selectors.getChoosenAspectOptions(state, props.params.aspect),
     props
   }
 };

@@ -1,29 +1,71 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
+import * as actionCreators from '../actions';
 
 import TitleView from './titleView';
 
-class End extends Component{
-  render(){
-    return (
-      <section className="survaider-home-main">
+const End = ({state}) => {
 
-        <div className="main-form">
+  let generatedOutput = () => {
+    let output = {};
 
-          <div className="question-view">
-            <h1>
-              Thanks a lot for your feedback.
-            </h1>
-            <h1>
-              Please visit <b>Sterling Holidays</b> again!
-            </h1>
-          </div>
+    output['rating'] = state.rating;
+    output['response_text'] = state.feedback;
+    output['respondent'] = state.contact;
+    output['bad_aspects'] = [];
 
+    output['bad_aspects'] = state.choosen_aspects.map((aspect) => {
+      let newObject = {
+        aspect: '',
+        selected_options: []
+      };
+
+      newObject['aspect'] = aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ');
+
+      newObject['selected_options'] = state.choosen_aspects_options[aspect].map((optionIndex) => {
+        return { [optionIndex+1]: state.aspects_options[aspect][optionIndex] }
+      });
+
+      return newObject;
+    });
+
+    console.log(output);
+
+    window.output = output;
+
+    return JSON.stringify(output, null, 4); 
+  }
+
+  return (
+    <section className="survaider-home-main">
+
+      <div className="main-form">
+
+        <div className="question-view">
+          <h1>
+            Thanks a lot for your feedback.
+          </h1>
+          <h1>
+            Please visit <b>Sterling Holidays</b> again!
+          </h1>
         </div>
 
-      </section>
-    );
-  }
+      </div>
+
+      <code>
+        {generatedOutput()}
+      </code>
+
+    </section>
+  );
 }
 
-export default End;
+
+const mapStateToProps = (state, props) => {
+  return {
+    state
+  }
+};
+
+export default connect(mapStateToProps, actionCreators)(End);

@@ -8,7 +8,7 @@ import Footer from './footer';
 import TitleView from './titleView';
 import StarView from './star';
 
-const Home = ({rating, questionRated}) => {
+const Home = ({rating, questionRated, props}) => {
 
   let numberOfStars = 5;
   let starViews = [];
@@ -25,15 +25,15 @@ const Home = ({rating, questionRated}) => {
     }
   }
 
-  if (rating === undefined) var nextLink = '';
+  if (rating === 0) var nextLink = '';
   else{
-    if (rating > 3) nextLink = 'feedback';
-    else nextLink = 'aspects';
+    if (rating > 3) nextLink = '/feedback';
+    else nextLink = '/aspects';
   }
 
-
   return (
-    <section className="survaider-home-main">
+
+    rating > 0 && props.children || <section className="survaider-home-main">
       <div className="main-form">
         <TitleView title="How likely are you to recommend this experience to your friends?" />
         <div className="response-view rating-response">
@@ -49,7 +49,8 @@ const Home = ({rating, questionRated}) => {
 
 const mapStateToProps = (state, props) => {
   return {
-    rating: state.rating
+    rating: state.rating,
+    props
   }
 };
 

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Router, Route, browserHistory, hashHistory } from 'react-router';
 import {connect} from 'react-redux';
-import {difference} from 'ramda';
+import {indexOf} from 'ramda';
 
 import * as actionCreators from '../actions';
 import * as selectors from '../selectors';
@@ -17,20 +17,18 @@ const ChooseAspects = ({ aspects, choosen_aspects, choseAspect }) => {
 
   let previous_aspects = choosen_aspects.map((s) => { return s.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ') });
 
-  let difference_aspects = difference(aspects, previous_aspects);
-
   let aspectViews = aspects.map((name, index) => {
-    if (name === difference_aspects[index]) {
-      return <AspectView checked={false} onClick={choseAspect.bind(this)} name={name} key={index} index={index} />;
+    if (indexOf(name, previous_aspects) !== -1) {
+      return <AspectView checked={true} onClick={choseAspect.bind(this)} name={name} key={index} index={index} />;
     }
     else{
-      return <AspectView checked={true} onClick={choseAspect.bind(this)} name={name} key={index} index={index} />;
+      return <AspectView checked={false} onClick={choseAspect.bind(this)} name={name} key={index} index={index} />;
     }
   });
 
   let nextLink = '';
   if (choosen_aspects.length > 0) {
-    nextLink = `aspects/${choosen_aspects[0]}`;
+    nextLink = `/aspects/${choosen_aspects[0]}`;
   }
 
   return (

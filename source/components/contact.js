@@ -1,10 +1,27 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+
+import * as actionCreators from '../actions';
+import * as selectors from '../selectors';
+
 
 import Footer from './footer';
 
-const Contact = () => {
+const Contact = ({props, onContactNameChange, onContactEmailChange, onContactMobileChange}) => {
 
-  let nextLink = 'thank-you';
+  let nextLink = '/thank-you';
+
+  let onNameChange = (e) => {
+    onContactNameChange(e.target.value);
+  }
+
+  let onEmailChange = (e) => {
+    onContactEmailChange(e.target.value);
+  }
+
+  let onMobileChange = (e) => {
+    onContactMobileChange(e.target.value);
+  }
 
   return (
     <section className="survaider-home-main">
@@ -13,18 +30,19 @@ const Contact = () => {
 
         <div className="contact-form">
           <div className="form-field">
-            <input type="text" name="name" id="name" required="required" />
+            <input onChange={onNameChange} type="text" name="name" id="name" required="required" />
             <label htmlFor="name">Name:</label>
           </div>
           <div className="form-field">
-            <input type="email" name="email" id="email" required="required" />
+            <input onChange={onEmailChange} type="email" name="email" id="email" required="required" />
             <label htmlFor="email">Email:</label>
           </div>
           <div className="form-field">
-            <input type="text" name="mobile" id="mobile" required="required" />
+            <input onChange={onMobileChange} type="text" name="mobile" id="mobile" required="required" />
             <label htmlFor="mobile">Mobile:</label>
           </div>
         </div>
+
 
       </div>
       <Footer nextLink={nextLink} />
@@ -33,4 +51,11 @@ const Contact = () => {
   );
 }
 
-export default Contact;
+
+const mapStateToProps = (state, props) => {
+  return {
+    props
+  }
+};
+
+export default connect(mapStateToProps, actionCreators)(Contact);

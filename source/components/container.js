@@ -15,14 +15,15 @@ class Container extends Component{
     return (
       <div className="survaider-home">
         <Header />
-        <Router history={hashHistory}>
-          <Route path="/" component={Home} />
-          <Route path="/aspects" component={ChooseAspects} />
-          <Route path="/aspects/(:aspect)" component={AspectResponse} />
-          <Route path="/feedback" component={Feedback} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/thank-you" component={End} />
-          <Route path="*" component={NotFound} />
+        <Router history={browserHistory}>
+          <Route path="/" component={Home}>
+            <Route path="/aspects" component={ChooseAspects} />
+            <Route path="/aspects/(:aspect)" component={AspectResponse} />
+            <Route path="/feedback" component={Feedback} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/thank-you" component={End} />
+            <Route path="*" component={NotFound} />
+          </Route>
         </Router>
       </div>
     );

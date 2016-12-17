@@ -660,11 +660,11 @@ template {
       -moz-transition: -moz-transform 0.3s;
       transition: transform 0.3s;
       background-color: #000; }
-  .radio-option input[type="radio"] {
+  .radio-option input[type="checkbox"] {
     opacity: 0;
     width: 0;
     height: 0; }
-    .radio-option input[type="radio"]:checked + label:after {
+    .radio-option input[type="checkbox"]:checked + label:after {
       -webkit-transform: translate(5px, 5px) scale(1);
       -moz-transform: translate(5px, 5px) scale(1);
       -ms-transform: translate(5px, 5px) scale(1);

@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 
-class OptionView extends Component{
-  render(){
-    return (
-      <div className="radio-option">
-        <input type="radio" id={'radio-option-' + this.props.index} name="response" />
-        <label htmlFor={'radio-option-' + this.props.index}>{this.props.title}</label>
-      </div>
-    );
-  }
+const OptionView = ({ onClick, index, title, checked }) => {
+  return (
+    <div className="radio-option">
+      <input checked={checked} onChange={onClick.bind(null)} type="checkbox" id={'radio-option-' + index} />
+      <label htmlFor={'radio-option-' + index}>{title}</label>
+    </div>
+  );
 }
 
 export default OptionView;
