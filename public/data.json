@@ -1,0 +1,51 @@
+{
+    "business_name": "Sterling Holidays",
+    "logo_link": "https://s3.ap-south-1.amazonaws.com/survaider-static-files/logos/sterling_medium.png",
+    "aspect_options": [
+        {
+            "aspect": "Cleanliness",
+            "options": [
+                {"1": "Bathroom and toiletries"},
+                {"2": "Bed, cover and upholstery"},
+                {"3": "Kitchen"},
+                {"4": "Lobby, the interiors in general"}
+            ]
+        },
+        {
+            "aspect": "Value For Money",
+            "options": [
+                {"1": "Bathroom and toiletries"},
+                {"2": "Bed, cover and upholstery"},
+                {"3": "Kitchen"},
+                {"4": "Lobby, the interiors in general"}
+            ]
+        },
+        {
+            "aspect": "Rooms",
+            "options": [
+                {"1": "Bathroom and toiletries"},
+                {"2": "Bed, cover and upholstery"},
+                {"3": "Kitchen"},
+                {"4": "Lobby, the interiors in general"}
+            ]
+        },
+        {
+            "aspect": "Service",
+            "options": [
+                {"1": "Bathroom and toiletries"},
+                {"2": "Bed, cover and upholstery"},
+                {"3": "Kitchen"},
+                {"4": "Lobby, the interiors in general"}
+            ]
+        },
+        {
+            "aspect": "Location",
+            "options": [
+                {"1": "Bathroom and toiletries"},
+                {"2": "Bed, cover and upholstery"},
+                {"3": "Kitchen"},
+                {"4": "Lobby, the interiors in general"}
+            ]
+        }
+    ]
+}
