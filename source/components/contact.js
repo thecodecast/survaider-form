@@ -4,10 +4,9 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../actions';
 import * as selectors from '../selectors';
 
-
 import Footer from './footer';
 
-const Contact = ({props, onContactNameChange, onContactEmailChange, onContactMobileChange}) => {
+const Contact = ({contact = {}, props, onContactNameChange, onContactEmailChange, onContactMobileChange}) => {
 
   let nextLink = '/thank-you';
 
@@ -30,15 +29,15 @@ const Contact = ({props, onContactNameChange, onContactEmailChange, onContactMob
 
         <div className="contact-form">
           <div className="form-field">
-            <input onChange={onNameChange} type="text" name="name" id="name" required="required" />
+            <input value={contact.name} onChange={onNameChange} type="text" name="name" id="name" required="required" />
             <label htmlFor="name">Name:</label>
           </div>
           <div className="form-field">
-            <input onChange={onEmailChange} type="email" name="email" id="email" required="required" />
+            <input value={contact.email} onChange={onEmailChange} type="email" name="email" id="email" required="required" />
             <label htmlFor="email">Email:</label>
           </div>
           <div className="form-field">
-            <input onChange={onMobileChange} type="text" name="mobile" id="mobile" required="required" />
+            <input value={contact.mobile} onChange={onMobileChange} type="text" name="mobile" id="mobile" required="required" />
             <label htmlFor="mobile">Mobile:</label>
           </div>
         </div>
@@ -54,7 +53,8 @@ const Contact = ({props, onContactNameChange, onContactEmailChange, onContactMob
 
 const mapStateToProps = (state, props) => {
   return {
-    props
+    props,
+    contact: state.contact
   }
 };
 

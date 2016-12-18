@@ -8,7 +8,7 @@ import * as selectors from '../selectors';
 import Footer from './footer';
 import TitleView from './titleView';
 
-const Feedback = ({props, giveFeedback, state}) => {
+const Feedback = ({props, giveFeedback, feedback}) => {
 
   let nextLink = '/contact';
 
@@ -25,7 +25,7 @@ const Feedback = ({props, giveFeedback, state}) => {
 
         <div className="response-view feedback-response">
           <div className="feedback-textarea">
-            <textarea onChange={onChange} name="feedback" rows="10" cols="80" placeholder="Your thoughts here..."></textarea>
+            <textarea onChange={onChange} value={feedback} name="feedback" rows="10" cols="80" placeholder="Your thoughts here..."></textarea>
           </div>
         </div>
 
@@ -40,7 +40,7 @@ const Feedback = ({props, giveFeedback, state}) => {
 const mapStateToProps = (state, props) => {
   return {
     props,
-    state
+    feedback: state.feedback
   }
 };
 

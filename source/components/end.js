@@ -15,7 +15,7 @@ const End = ({state}) => {
     output['respondent'] = state.contact;
     output['bad_aspects'] = [];
 
-    output['bad_aspects'] = state.choosen_aspects.map((aspect) => {
+    output['bad_aspects'] = state.choosen_aspects && state.choosen_aspects.map((aspect) => {
       let newObject = {
         aspect: '',
         selected_options: []
@@ -23,7 +23,7 @@ const End = ({state}) => {
 
       newObject['aspect'] = aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ');
 
-      newObject['selected_options'] = state.choosen_aspects_options[aspect].map((optionIndex) => {
+      newObject['selected_options'] =  state.choosen_aspects_options && state.choosen_aspects_options[aspect].map((optionIndex) => {
         return { [optionIndex+1]: state.aspects_options[aspect][optionIndex] }
       });
 
@@ -34,7 +34,7 @@ const End = ({state}) => {
 
     window.output = output;
 
-    return JSON.stringify(output, null, 4); 
+    return JSON.stringify(output, null, 4);
   }
 
   return (
