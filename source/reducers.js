@@ -1,6 +1,28 @@
 import {merge, append, without, indexOf} from 'ramda';
 
-export const reducer = (state = {}, { type, payload }) => {
+let initialState = {
+  business_name: '',
+  logo_link: '',
+  aspects_names: [],
+  aspects_options: [],
+  choosen_aspects: [],
+  choosen_aspects_options: {},
+  rating: 0
+};
+
+// let cachedState = window.localStorage.getItem('state');
+//
+// if (cachedState && cachedState !== '') {
+//   try {
+//     cachedState = JSON.parse(cachedState);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// }
+//
+// initialState = merge({}, initialState, cachedState);
+
+export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'app/dataLoaded':
       return payload.data;
