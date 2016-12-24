@@ -51,7 +51,7 @@ setTimeout(() => {
 
 
 
-}, 5000);
+}, 1);
 
 
 render(<Loading />,

@@ -8,13 +8,6 @@ const Loading = () => {
       </div>
       <div className="loading-text">
         <h1>Loading</h1>
-        <div className="dots-animator">
-          <div>
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
-          </div>
-        </div>
       </div>
     </div>
   );

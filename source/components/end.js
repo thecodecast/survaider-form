@@ -23,7 +23,7 @@ const End = ({state}) => {
 
       newObject['aspect'] = aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ');
 
-      newObject['selected_options'] =  state.choosen_aspects_options && state.choosen_aspects_options[aspect].map((optionIndex) => {
+      newObject['selected_options'] =  state.choosen_aspects_options && state.choosen_aspects_options[aspect] && state.choosen_aspects_options[aspect].map((optionIndex) => {
         return { [optionIndex+1]: state.aspects_options[aspect][optionIndex] }
       });
 
