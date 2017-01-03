@@ -28,7 +28,7 @@ const Start = ({rating, questionRated, props}) => {
 
   if (rating === 0) var nextLink = '';
   else{
-    if (rating > 3) nextLink = '/feedback';
+    if (rating > 4) nextLink = '/feedback';
     else nextLink = '/aspects';
   }
 

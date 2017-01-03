@@ -13,8 +13,8 @@ import Loading from './components/loading';
 setTimeout(() => {
 
 
-  fetch('data.json')
-    .then( (res) => { return res.json(); } )
+  fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL')
+    .then( (res) => { return res.json() } )
     .then( (json) => {
 
       let data = {
@@ -30,12 +30,19 @@ setTimeout(() => {
       data['business_name'] = json['business_name'];
       data['logo_link'] = json['logo_link'];
 
-      data['aspects_names'] = json['aspect_options'].map((aspect) => { return aspect.aspect; });
+      data['aspects_names'] = json['aspect_options'].map((aspect) => {
+        let name = aspect.aspect;
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        return name;
+      });
       data['aspects_options'] = {};
 
       json['aspect_options'].forEach((aspect) => {
         let aspect_name = aspect.aspect.toLowerCase().split(' ').join('-');
-        let aspect_options = aspect.options.map((option, index) => { return option[index+1] });
+        let aspect_options = aspect.options.map((option, index) => {
+          let optionKey = Object.keys(option)[0];
+          return option[optionKey];
+        });
         data['aspects_options'][aspect_name] = aspect_options;
       });
 
@@ -46,8 +53,8 @@ setTimeout(() => {
             </Provider>,
       document.getElementById('mainApp'));
 
-    } )
-    .catch((err) => { console.log(err); })
+    })
+    .catch( (err) => { return console.log(err); } )
 
 
 

@@ -15,9 +15,12 @@ import Footer from './footer';
 
 const ChooseAspects = ({ aspects, choosen_aspects, choseAspect }) => {
 
+
   let previous_aspects = choosen_aspects.map((s) => { return s.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ') });
 
   let aspectViews = aspects.map((name, index) => {
+
+    
     if (indexOf(name, previous_aspects) !== -1) {
       return <AspectView checked={true} onClick={choseAspect.bind(this)} name={name} key={index} index={index} />;
     }

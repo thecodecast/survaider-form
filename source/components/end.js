@@ -30,12 +30,15 @@ const End = ({state}) => {
       return newObject;
     });
 
-    console.log(output);
+    setTimeout(() => {
+      fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL', {
+        method: 'POST',
+        body: JSON.stringify(output)
+      });
+    }, 10);
 
-    window.output = output;
-
-    return JSON.stringify(output, null, 4);
   }
+
 
   return (
     <section className="survaider-home-main">
@@ -51,12 +54,11 @@ const End = ({state}) => {
           </h1>
         </div>
 
+        <pre>
+          {generatedOutput()}
+        </pre>
+
       </div>
-
-      <code>
-        {generatedOutput()}
-      </code>
-
     </section>
   );
 }
