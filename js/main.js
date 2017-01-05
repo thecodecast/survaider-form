@@ -77,9 +77,7 @@
 	//Imitating Loading Effect
 	setTimeout(function () {
 
-	  fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL', {
-	    mode: 'no-cors'
-	  }).then(function (res) {
+	  fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL').then(function (res) {
 	    return res.json();
 	  }).then(function (json) {
 
@@ -97,14 +95,17 @@
 	    data['logo_link'] = json['logo_link'];
 
 	    data['aspects_names'] = json['aspect_options'].map(function (aspect) {
-	      return aspect.aspect;
+	      var name = aspect.aspect;
+	      name = name.charAt(0).toUpperCase() + name.slice(1);
+	      return name;
 	    });
 	    data['aspects_options'] = {};
 
 	    json['aspect_options'].forEach(function (aspect) {
 	      var aspect_name = aspect.aspect.toLowerCase().split(' ').join('-');
 	      var aspect_options = aspect.options.map(function (option, index) {
-	        return option[index + 1];
+	        var optionKey = Object.keys(option)[0];
+	        return option[optionKey];
 	      });
 	      data['aspects_options'][aspect_name] = aspect_options;
 	    });
@@ -40849,6 +40850,7 @@
 	  });
 
 	  var aspectViews = aspects.map(function (name, index) {
+
 	    if ((0, _ramda.indexOf)(name, previous_aspects) !== -1) {
 	      return _react2.default.createElement(_aspectView2.default, { checked: true, onClick: choseAspect.bind(undefined), name: name, key: index, index: index });
 	    } else {
@@ -41355,20 +41357,12 @@
 	      return newObject;
 	    });
 
-	    // console.log(output);
-
-	    // window.output = output;
-
 	    setTimeout(function () {
 	      fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL', {
 	        method: 'POST',
 	        body: JSON.stringify(output)
 	      });
 	    }, 10);
-	  };
-
-	  var componentDidMount = function componentDidMount() {
-	    generatedOutput();
 	  };
 
 	  return _react2.default.createElement(
@@ -41396,15 +41390,12 @@
 	          ),
 	          ' again!'
 	        )
+	      ),
+	      _react2.default.createElement(
+	        'pre',
+	        null,
+	        generatedOutput()
 	      )
-	    ),
-	    '// ',
-	    _react2.default.createElement(
-	      'code',
-	      null,
-	      '//   ',
-	      generatedOutput(),
-	      '// '
 	    )
 	  );
 	};

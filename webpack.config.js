@@ -1,7 +1,7 @@
 module.exports = {
   entry: "./source/main.js",
   output: {
-    path: "./public",
+    path: "./",
     filename: "js/main.js"
   },
   module: {
@@ -19,7 +19,7 @@ module.exports = {
   devServer: {
     inline: true,
     hot: true,
-    contentBase: "./public",
+    contentBase: "./",
     historyApiFallback: true,
     port: 3000
   }
