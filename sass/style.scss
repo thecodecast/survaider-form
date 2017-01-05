@@ -6,6 +6,11 @@
 // GENERAL
 /*---------------------------------------------------*/
 
+$primary: #007E8D;
+$secondary: #40D9DA;
+$accent: #E9F1DE;
+
+
 *,
 *::before,
 *::after{
@@ -25,14 +30,16 @@
 }
 
 @mixin hollowEffect {
-  border: 2px solid #000;
-  color: #333;
+  border: 3px solid $primary;
+  color: $primary;
+  border-radius: 100px;
+  font-weight: 700;
   cursor: pointer;
-  padding: .75em 1.25em;
+  padding: .75em 1.5em;
   @include transition(background-color 0.3s, color 0.3s);
   &:hover{
-    background-color: #000;
-    color: #fff;
+    background-color: $primary;
+    color: $accent;
   }
 }
 
@@ -43,12 +50,20 @@
 }
 
 .hollow-button{
-  background: none;
-  border-radius: 8px;
-  font-family: 'Rubik', sans-serif;
+  background-color: $primary;
+  border: none;
+  border-radius: 100px;
   outline: none;
-
-  @include hollowEffect;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: $accent;
+  width: 140px;
+  height: 54px;
+  font-size: 18px;
+  font-weight: 700;
+  display: block;
+  text-align: center;
+  line-height: 54px;
 }
 
 
@@ -58,7 +73,8 @@
 /*---------------------------------------------------*/
 
 .survaider-main{
-  font-family: 'Rubik', sans-serif
+  font-family: 'Montserrat', sans-serif;
+  background-color: $secondary;
 }
 
 .survaider-home{
@@ -73,7 +89,7 @@
 
 .survaider-home-header{
   @include flex(0 1 40px);
-  background-color: #ddd;
+  background-color: #2DB1C0;
 
   .logo{
     height: 40px;
@@ -89,6 +105,7 @@
 
     span{
       font-size: 12px;
+      color: $accent;
     }
   }
 }
@@ -116,7 +133,8 @@
     padding: 0 4em;
     h1{
       font-size: 2.5em;
-      font-weight: 200;
+      font-weight: 700;
+      color: $primary;
     }
   }
 
@@ -143,7 +161,7 @@
   cursor: pointer;
   margin: 0 16px;
 
-  @include transform(rotate(15deg));
+  // @include transform(rotate(15deg));
 }
 
 
@@ -168,8 +186,9 @@
     height: 0;
 
     &:checked + label{
-      background-color: #000;
-      color: #fff;
+      border: none;
+      background-color: $primary;
+      color: $accent;
     }
   }
 }
@@ -204,11 +223,14 @@
   }
 
   h2{
-    font-size: 2em;
-    font-weight: 100;
+    font-size: 30px;
+    font-weight: 400;
+    color: $primary;
   }
   .option-hollow{
-    @include transform(scale(0.75));
+    @include transform(scale(0.65));
+    background-color: $primary;
+    color: $accent;
   }
 }
 
@@ -233,6 +255,7 @@
     font-weight: lighter;
     position: relative;
     padding-left: 40px;
+    color: $accent;
 
     &:before, &:after{
       content: '';
@@ -242,7 +265,7 @@
     }
 
     &:before{
-      border: 2px solid #000;
+      border: 3px solid $primary;
       @include makeCircle($outer-dot-size);
     }
 
@@ -252,7 +275,7 @@
       @include transform(translate( ($outer-dot-size - $inner-dot-size)/2, ($outer-dot-size - $inner-dot-size)/2 ) scale(0));
       @include transition(transform 0.3s);
 
-      background-color: #000;
+      background-color: $primary;
     }
   }
 
@@ -281,12 +304,17 @@
 .feedback-response{
   .feedback-textarea{
     textarea{
-      border: 2px solid #000;
-      font-family: 'Rubik', sans-serif;
+      border: 3px solid $primary;
+      font-family: inherit;
       font-size: 1em;
       outline: none;
       padding: 12px;
       resize: none;
+      background: none;
+      color: $primary;
+      &:focus{
+        background-color: $accent;
+      }
     }
   }
 }
@@ -317,27 +345,22 @@
 
 
   input{
-    border: none;
-    border-bottom: 2px solid #ddd;
+    border: 3px solid $primary;
     display: block;
-    font-family: 'Rubik', sans-serif;
-    font-weight: 100;
-    font-size: 1.5em;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 18px;
     outline: none;
-    padding-left: 3.5em;
+    padding: 30px;
     width: 100%;
     height: 100%;
     &:focus{
-      border-bottom-color: #000;
+      background-color: $accent;
     }
   }
 
   label{
-    left: 0;
-    font-weight: 100;
-    font-size: 1.5em;
-    position: absolute;
-    top: 11px;
+    display: none;
   }
 }
 
@@ -360,11 +383,12 @@
 
     h1{
       margin: 14px;
+      font-weight: 400;
     }
 
     b{
-      font-weight: 900;
-      text-decoration: underline;
+      font-weight: 700;
+      color: $accent;
     }
   }
 

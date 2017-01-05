@@ -41,7 +41,7 @@ const End = ({state}) => {
 
 
   return (
-    <section className="survaider-home-main">
+    <section className="end-slide">
 
       <div className="main-form">
 

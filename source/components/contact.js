@@ -29,15 +29,15 @@ const Contact = ({contact = {}, props, onContactNameChange, onContactEmailChange
 
         <div className="contact-form">
           <div className="form-field">
-            <input value={contact.name} onChange={onNameChange} type="text" name="name" id="name" required="required" />
+            <input value={contact.name} onChange={onNameChange} type="text" name="name" id="name" placeholder="Name:" required="required" />
             <label htmlFor="name">Name:</label>
           </div>
           <div className="form-field">
-            <input value={contact.email} onChange={onEmailChange} type="email" name="email" id="email" required="required" />
+            <input value={contact.email} onChange={onEmailChange} type="email" name="email" id="email" placeholder="Email:" required="required" />
             <label htmlFor="email">Email:</label>
           </div>
           <div className="form-field">
-            <input value={contact.mobile} onChange={onMobileChange} type="text" name="mobile" id="mobile" required="required" />
+            <input value={contact.mobile} onChange={onMobileChange} type="text" name="mobile" id="mobile" placeholder="Phone:" required="required" />
             <label htmlFor="mobile">Mobile:</label>
           </div>
         </div>

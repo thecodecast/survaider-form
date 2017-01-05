@@ -423,25 +423,26 @@ template {
   display: table; }
 
 .hollow-button {
-  background: none;
-  border-radius: 8px;
-  font-family: 'Rubik', sans-serif;
+  background-color: #007E8D;
+  border: none;
+  border-radius: 100px;
   outline: none;
-  border: 2px solid #000;
-  color: #333;
-  cursor: pointer;
-  padding: .75em 1.25em;
-  -webkit-transition: background-color 0.3s, color 0.3s;
-  -moz-transition: background-color 0.3s, color 0.3s;
-  transition: background-color 0.3s, color 0.3s; }
-  .hollow-button:hover {
-    background-color: #000;
-    color: #fff; }
+  text-transform: uppercase;
+  text-decoration: none;
+  color: #E9F1DE;
+  width: 140px;
+  height: 54px;
+  font-size: 18px;
+  font-weight: 700;
+  display: block;
+  text-align: center;
+  line-height: 54px; }
 
 /*---------------------------------------------------*/
 /*---------------------------------------------------*/
 .survaider-main {
-  font-family: "Rubik", sans-serif; }
+  font-family: 'Montserrat', sans-serif;
+  background-color: #40D9DA; }
 
 .survaider-home {
   height: 100vh;
@@ -483,7 +484,7 @@ template {
   -moz-flex: 0 1 40px;
   -ms-flex: 0 1 40px;
   flex: 0 1 40px;
-  background-color: #ddd; }
+  background-color: #2DB1C0; }
   .survaider-home-header .logo {
     height: 40px;
     padding: 10px;
@@ -493,7 +494,8 @@ template {
   .survaider-home-header .header-info {
     padding: 10px; }
     .survaider-home-header .header-info span {
-      font-size: 12px; }
+      font-size: 12px;
+      color: #E9F1DE; }
 
 .survaider-home-main {
   -webkit-box-flex: 1;
@@ -549,7 +551,8 @@ template {
     padding: 0 4em; }
     .main-form .question-view h1 {
       font-size: 2.5em;
-      font-weight: 200; }
+      font-weight: 700;
+      color: #007E8D; }
   .main-form .response-view {
     margin-top: 2.5em;
     padding: 0 4em; }
@@ -568,12 +571,7 @@ template {
 .star-svg {
   display: inline-block;
   cursor: pointer;
-  margin: 0 16px;
-  -webkit-transform: rotate(15deg);
-  -moz-transform: rotate(15deg);
-  -ms-transform: rotate(15deg);
-  -o-transform: rotate(15deg);
-  transform: rotate(15deg); }
+  margin: 0 16px; }
 
 .info-svg {
   cursor: pointer; }
@@ -587,23 +585,26 @@ template {
     width: 0;
     height: 0; }
     .option-aspect input[type="checkbox"]:checked + label {
-      background-color: #000;
-      color: #fff; }
+      border: none;
+      background-color: #007E8D;
+      color: #E9F1DE; }
 
 .option-hollow {
   display: inline-block;
   font-size: 1.15em;
   margin: .5em;
-  border: 2px solid #000;
-  color: #333;
+  border: 3px solid #007E8D;
+  color: #007E8D;
+  border-radius: 100px;
+  font-weight: 700;
   cursor: pointer;
-  padding: .75em 1.25em;
+  padding: .75em 1.5em;
   -webkit-transition: background-color 0.3s, color 0.3s;
   -moz-transition: background-color 0.3s, color 0.3s;
   transition: background-color 0.3s, color 0.3s; }
   .option-hollow:hover {
-    background-color: #000;
-    color: #fff; }
+    background-color: #007E8D;
+    color: #E9F1DE; }
 
 .skip-action {
   margin-left: 1.5em; }
@@ -616,14 +617,17 @@ template {
     display: inline-block;
     vertical-align: middle; }
   .sub-question-view h2 {
-    font-size: 2em;
-    font-weight: 100; }
+    font-size: 30px;
+    font-weight: 400;
+    color: #007E8D; }
   .sub-question-view .option-hollow {
-    -webkit-transform: scale(0.75);
-    -moz-transform: scale(0.75);
-    -ms-transform: scale(0.75);
-    -o-transform: scale(0.75);
-    transform: scale(0.75); }
+    -webkit-transform: scale(0.65);
+    -moz-transform: scale(0.65);
+    -ms-transform: scale(0.65);
+    -o-transform: scale(0.65);
+    transform: scale(0.65);
+    background-color: #007E8D;
+    color: #E9F1DE; }
 
 .sub-response-view {
   text-align: left; }
@@ -639,14 +643,15 @@ template {
     font-size: 1.5em;
     font-weight: lighter;
     position: relative;
-    padding-left: 40px; }
+    padding-left: 40px;
+    color: #E9F1DE; }
     .radio-option label:before, .radio-option label:after {
       content: '';
       top: 1px;
       left: 0;
       position: absolute; }
     .radio-option label:before {
-      border: 2px solid #000;
+      border: 3px solid #007E8D;
       border-radius: 50%;
       height: 25px;
       width: 25px; }
@@ -662,7 +667,7 @@ template {
       -webkit-transition: -webkit-transform 0.3s;
       -moz-transition: -moz-transform 0.3s;
       transition: transform 0.3s;
-      background-color: #000; }
+      background-color: #007E8D; }
   .radio-option input[type="checkbox"] {
     opacity: 0;
     width: 0;
@@ -677,12 +682,16 @@ template {
 /*---------------------------------------------------*/
 /*---------------------------------------------------*/
 .feedback-response .feedback-textarea textarea {
-  border: 2px solid #000;
-  font-family: 'Rubik', sans-serif;
+  border: 3px solid #007E8D;
+  font-family: inherit;
   font-size: 1em;
   outline: none;
   padding: 12px;
-  resize: none; }
+  resize: none;
+  background: none;
+  color: #007E8D; }
+  .feedback-response .feedback-textarea textarea:focus {
+    background-color: #E9F1DE; }
 
 /*---------------------------------------------------*/
 /*---------------------------------------------------*/
@@ -692,24 +701,19 @@ template {
   position: relative;
   width: 450px; }
   .form-field input {
-    border: none;
-    border-bottom: 2px solid #ddd;
+    border: 3px solid #007E8D;
     display: block;
-    font-family: 'Rubik', sans-serif;
-    font-weight: 100;
-    font-size: 1.5em;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 18px;
     outline: none;
-    padding-left: 3.5em;
+    padding: 30px;
     width: 100%;
     height: 100%; }
     .form-field input:focus {
-      border-bottom-color: #000; }
+      background-color: #E9F1DE; }
   .form-field label {
-    left: 0;
-    font-weight: 100;
-    font-size: 1.5em;
-    position: absolute;
-    top: 11px; }
+    display: none; }
 
 /*---------------------------------------------------*/
 /*---------------------------------------------------*/
@@ -719,10 +723,11 @@ template {
 .end-slide .question-view {
   margin-top: 10em; }
   .end-slide .question-view h1 {
-    margin: 14px; }
+    margin: 14px;
+    font-weight: 400; }
   .end-slide .question-view b {
-    font-weight: 900;
-    text-decoration: underline; }
+    font-weight: 700;
+    color: #E9F1DE; }
 .end-slide footer {
   display: none; }
 

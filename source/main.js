@@ -13,7 +13,7 @@ import Loading from './components/loading';
 setTimeout(() => {
 
 
-  fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL')
+  fetch('data.json')
     .then( (res) => { return res.json() } )
     .then( (json) => {
 
