@@ -77,7 +77,7 @@
 	//Imitating Loading Effect
 	setTimeout(function () {
 
-	  fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL').then(function (res) {
+	  fetch('data.json').then(function (res) {
 	    return res.json();
 	  }).then(function (json) {
 
@@ -33413,21 +33413,7 @@
 	        'div',
 	        { className: 'survaider-home' },
 	        _react2.default.createElement(_header2.default, null),
-	        _react2.default.createElement(
-	          _reactRouter.Router,
-	          { history: _reactRouter.browserHistory },
-	          _react2.default.createElement(
-	            _reactRouter.Route,
-	            { path: '/', component: _home2.default },
-	            _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/aspects', component: _chooseAspects2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/aspects/(:aspect)', component: _aspectResponse2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _feedback2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _contact2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/thank-you', component: _end2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
-	          )
-	        )
+	        _react2.default.createElement(_start2.default, null)
 	      );
 	    }
 	  }]);
@@ -40739,13 +40725,11 @@
 /* 295 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
@@ -40753,43 +40737,31 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var StarView = function StarView(_ref) {
+	  var fill = _ref.fill,
+	      onClick = _ref.onClick,
+	      value = _ref.value;
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	  var unselectColor = '#E9F1DE';
+	  var selectColor = '#007E8D';
 
-	var StarView = function (_Component) {
-	  _inherits(StarView, _Component);
-
-	  function StarView() {
-	    _classCallCheck(this, StarView);
-
-	    return _possibleConstructorReturn(this, (StarView.__proto__ || Object.getPrototypeOf(StarView)).apply(this, arguments));
-	  }
-
-	  _createClass(StarView, [{
-	    key: "render",
-	    value: function render() {
-	      return _react2.default.createElement(
-	        "div",
-	        { onClick: this.props.onClick.bind(null, this.props.value), className: "star-svg" },
-	        _react2.default.createElement(
-	          "svg",
-	          { width: "60", height: "60" },
-	          _react2.default.createElement(
-	            "g",
-	            null,
-	            _react2.default.createElement("path", { style: { fill: this.props.fill ? 'cadetblue' : 'transparent', stroke: this.props.fill ? 'cadetblue' : 'black', strokeWidth: '2px' }, d: "M55.818,21.578c-0.118-0.362-0.431-0.626-0.808-0.681L36.92,18.268L28.83,1.876c-0.168-0.342-0.516-0.558-0.896-0.558 s-0.729,0.216-0.896,0.558l-8.091,16.393l-18.09,2.629c-0.377,0.055-0.689,0.318-0.808,0.681c-0.117,0.361-0.02,0.759,0.253,1.024 l13.091,12.76l-3.091,18.018c-0.064,0.375,0.09,0.754,0.397,0.978c0.309,0.226,0.718,0.255,1.053,0.076l16.182-8.506l16.18,8.506 c0.146,0.077,0.307,0.115,0.466,0.115c0.207,0,0.413-0.064,0.588-0.191c0.308-0.224,0.462-0.603,0.397-0.978l-3.09-18.017 l13.091-12.761C55.838,22.336,55.936,21.939,55.818,21.578z"
-	            })
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return StarView;
-	}(_react.Component);
+	  return _react2.default.createElement(
+	    'div',
+	    { onClick: onClick.bind(null, value), className: 'star-svg' },
+	    _react2.default.createElement(
+	      'svg',
+	      { width: '60px', height: '57px', viewBox: '54 123 60 57' },
+	      _react2.default.createElement(
+	        'desc',
+	        null,
+	        'Created with Sketch.'
+	      ),
+	      _react2.default.createElement('defs', null),
+	      _react2.default.createElement('polygon', { id: 'Shape', stroke: 'none', fill: fill ? selectColor : unselectColor, points: '84 168.819059 102.54 180 97.6349412 158.913059 114 144.732 92.4270588 142.880941 84 123 75.5730588 142.880941 54 144.732 70.3650588 158.913059 65.46 180' })
+	    )
+	  );
+	};
 
 	exports.default = StarView;
 
@@ -41156,7 +41128,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'form-field' },
-	          _react2.default.createElement('input', { value: contact.name, onChange: onNameChange, type: 'text', name: 'name', id: 'name', required: 'required' }),
+	          _react2.default.createElement('input', { value: contact.name, onChange: onNameChange, type: 'text', name: 'name', id: 'name', placeholder: 'Name:', required: 'required' }),
 	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'name' },
@@ -41166,7 +41138,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'form-field' },
-	          _react2.default.createElement('input', { value: contact.email, onChange: onEmailChange, type: 'email', name: 'email', id: 'email', required: 'required' }),
+	          _react2.default.createElement('input', { value: contact.email, onChange: onEmailChange, type: 'email', name: 'email', id: 'email', placeholder: 'Email:', required: 'required' }),
 	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'email' },
@@ -41176,7 +41148,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'form-field' },
-	          _react2.default.createElement('input', { value: contact.mobile, onChange: onMobileChange, type: 'text', name: 'mobile', id: 'mobile', required: 'required' }),
+	          _react2.default.createElement('input', { value: contact.mobile, onChange: onMobileChange, type: 'text', name: 'mobile', id: 'mobile', placeholder: 'Phone:', required: 'required' }),
 	          _react2.default.createElement(
 	            'label',
 	            { htmlFor: 'mobile' },
@@ -41367,7 +41339,7 @@
 
 	  return _react2.default.createElement(
 	    'section',
-	    { className: 'survaider-home-main' },
+	    { className: 'end-slide' },
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'main-form' },

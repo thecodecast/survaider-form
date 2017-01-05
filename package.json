@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline --progress --profile --colors"
+    "start": "webpack-dev-server --hot --inline --progress --profile --colors",
+    "build": "webpack"
   },
   "author": "Ankur Singhal",
   "license": "ISC",
