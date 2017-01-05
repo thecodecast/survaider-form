@@ -33413,7 +33413,21 @@
 	        'div',
 	        { className: 'survaider-home' },
 	        _react2.default.createElement(_header2.default, null),
-	        _react2.default.createElement(_start2.default, null)
+	        _react2.default.createElement(
+	          _reactRouter.Router,
+	          { history: _reactRouter.browserHistory },
+	          _react2.default.createElement(
+	            _reactRouter.Route,
+	            { path: '/', component: _home2.default },
+	            _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '/aspects', component: _chooseAspects2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '/aspects/(:aspect)', component: _aspectResponse2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _feedback2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _contact2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '/thank-you', component: _end2.default }),
+	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
+	          )
+	        )
 	      );
 	    }
 	  }]);

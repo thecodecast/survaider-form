@@ -12,12 +12,21 @@ import End from './end';
 import NotFound from './404';
 
 class Container extends Component{
-  
   render(){
     return (
       <div className="survaider-home">
         <Header />
-        <Start />
+        <Router history={browserHistory}>
+          <Route path="/" component={Home}>
+            <IndexRoute component={Start} />
+            <Route path="/aspects" component={ChooseAspects} />
+            <Route path="/aspects/(:aspect)" component={AspectResponse} />
+            <Route path="/feedback" component={Feedback} />
+            <Route path="/contact" component={Contact} />
+            <Route path="/thank-you" component={End} />
+            <Route path="*" component={NotFound} />
+          </Route>
+        </Router>
       </div>
     );
   }
