@@ -66,7 +66,7 @@
 
 	var _app2 = _interopRequireDefault(_app);
 
-	var _loading = __webpack_require__(304);
+	var _loading = __webpack_require__(305);
 
 	var _loading2 = _interopRequireDefault(_loading);
 
@@ -77,7 +77,7 @@
 	//Imitating Loading Effect
 	setTimeout(function () {
 
-	  fetch('data.json').then(function (res) {
+	  fetch('data2.json').then(function (res) {
 	    return res.json();
 	  }).then(function (json) {
 
@@ -93,6 +93,9 @@
 
 	    data['business_name'] = json['business_name'];
 	    data['logo_link'] = json['logo_link'];
+	    data['feedback_title'] = json['aspect_question_positive'];
+	    data['choose_aspect_title'] = json['aspect_question_negative'];
+	    data['rating_threshold'] = json['rating_threshold'];
 
 	    data['aspects_names'] = json['aspect_options'].map(function (aspect) {
 	      var name = aspect.aspect;
@@ -100,14 +103,21 @@
 	      return name;
 	    });
 	    data['aspects_options'] = {};
+	    data['question_positive'] = {};
+	    data['question_negative'] = {};
+
+	    data['units_question'] = json['units_question'];
+	    data['units_placeholder_text'] = json['units_placeholder_text'];
+	    data['units'] = json['units'];
 
 	    json['aspect_options'].forEach(function (aspect) {
 	      var aspect_name = aspect.aspect.toLowerCase().split(' ').join('-');
-	      var aspect_options = aspect.options.map(function (option, index) {
-	        var optionKey = Object.keys(option)[0];
-	        return option[optionKey];
+	      var aspect_options = Object.keys(aspect.options).map(function (key) {
+	        return aspect.options[key];
 	      });
 	      data['aspects_options'][aspect_name] = aspect_options;
+	      data['question_positive'][aspect_name] = aspect['question_positive'];
+	      data['question_negative'][aspect_name] = aspect['question_negative'];
 	    });
 
 	    _store.store.dispatch(actions.dataLoaded(data));
@@ -115,7 +125,7 @@
 	    (0, _reactDom.render)(_react2.default.createElement(
 	      _reactRedux.Provider,
 	      { store: _store.store },
-	      _react2.default.createElement(_app2.default, null)
+	      _react2.default.createElement(_app2.default, { isParent: json['is_parent'] })
 	    ), document.getElementById('mainApp'));
 	  }).catch(function (err) {
 	    return console.log(err);
@@ -24280,7 +24290,8 @@
 	  aspects_options: [],
 	  choosen_aspects: [],
 	  choosen_aspects_options: {},
-	  rating: 0
+	  rating: 0,
+	  selectedUnit: ''
 	};
 
 	// let cachedState = window.localStorage.getItem('state');
@@ -24332,6 +24343,9 @@
 	      break;
 	    case 'app/giveFeedback':
 	      return (0, _ramda.merge)(state, _defineProperty({}, 'feedback', payload.feedback));
+	      break;
+	    case 'app/selectUnit':
+	      return (0, _ramda.merge)(state, _defineProperty({}, 'selectedUnit', payload.selectedUnit));
 	      break;
 	    case 'app/onContactNameChange':
 	      return (0, _ramda.merge)(state, _defineProperty({}, 'contact', (0, _ramda.merge)(state.contact, { name: payload.name })));
@@ -33253,6 +33267,17 @@
 	  };
 	};
 
+	var selectUnit = exports.selectUnit = function selectUnit() {
+	  var selectedUnit = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	  return {
+	    type: 'app/selectUnit',
+	    payload: {
+	      selectedUnit: selectedUnit
+	    }
+	  };
+	};
+
 	var onContactNameChange = exports.onContactNameChange = function onContactNameChange() {
 	  var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
@@ -33296,8 +33321,6 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -33308,30 +33331,11 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var App = function App(_ref) {
+	  var isParent = _ref.isParent;
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var App = function (_Component) {
-	  _inherits(App, _Component);
-
-	  function App() {
-	    _classCallCheck(this, App);
-
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).apply(this, arguments));
-	  }
-
-	  _createClass(App, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(_container2.default, null);
-	    }
-	  }]);
-
-	  return App;
-	}(_react.Component);
+	  return _react2.default.createElement(_container2.default, { isParent: isParent });
+	};
 
 	exports.default = App;
 
@@ -33344,8 +33348,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
@@ -33381,59 +33383,45 @@
 
 	var _start2 = _interopRequireDefault(_start);
 
-	var _end = __webpack_require__(302);
+	var _selectUnit = __webpack_require__(302);
+
+	var _selectUnit2 = _interopRequireDefault(_selectUnit);
+
+	var _end = __webpack_require__(303);
 
 	var _end2 = _interopRequireDefault(_end);
 
-	var _ = __webpack_require__(303);
+	var _ = __webpack_require__(304);
 
 	var _2 = _interopRequireDefault(_);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var Container = function Container(_ref) {
+	  var isParent = _ref.isParent;
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Container = function (_Component) {
-	  _inherits(Container, _Component);
-
-	  function Container() {
-	    _classCallCheck(this, Container);
-
-	    return _possibleConstructorReturn(this, (Container.__proto__ || Object.getPrototypeOf(Container)).apply(this, arguments));
-	  }
-
-	  _createClass(Container, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'survaider-home' },
-	        _react2.default.createElement(_header2.default, null),
-	        _react2.default.createElement(
-	          _reactRouter.Router,
-	          { history: _reactRouter.browserHistory },
-	          _react2.default.createElement(
-	            _reactRouter.Route,
-	            { path: '/', component: _home2.default },
-	            _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/aspects', component: _chooseAspects2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/aspects/(:aspect)', component: _aspectResponse2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _feedback2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _contact2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '/thank-you', component: _end2.default }),
-	            _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Container;
-	}(_react.Component);
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'survaider-home' },
+	    _react2.default.createElement(_header2.default, null),
+	    _react2.default.createElement(
+	      _reactRouter.Router,
+	      { history: _reactRouter.browserHistory },
+	      _react2.default.createElement(
+	        _reactRouter.Route,
+	        { path: '/', component: _home2.default },
+	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default }),
+	        isParent ? _react2.default.createElement(_reactRouter.Route, { path: '/select-unit', component: _selectUnit2.default }) : '',
+	        _react2.default.createElement(_reactRouter.Route, { path: '/aspects', component: _chooseAspects2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/aspects/(:aspect)', component: _aspectResponse2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _feedback2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/contact', component: _contact2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/thank-you', component: _end2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
+	      )
+	    )
+	  );
+	};
 
 	exports.default = Container;
 
@@ -40495,7 +40483,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.getChoosenAspectOptions = exports.getChoosenAspects = exports.getAspectOptions = exports.getAspects = exports.getWholeState = undefined;
+	exports.getChoosenAspectQuestionNegative = exports.getChoosenAspectQuestionPositive = exports.getChoosenAspectOptions = exports.getChoosenAspects = exports.getAspectOptions = exports.getAspects = exports.getWholeState = undefined;
 
 	var _ramda = __webpack_require__(219);
 
@@ -40517,6 +40505,14 @@
 
 	var getChoosenAspectOptions = exports.getChoosenAspectOptions = function getChoosenAspectOptions(state, aspect) {
 	  return state['choosen_aspects_options'][aspect];
+	};
+
+	var getChoosenAspectQuestionPositive = exports.getChoosenAspectQuestionPositive = function getChoosenAspectQuestionPositive(state, aspect) {
+	  return state['question_positive'][aspect];
+	};
+
+	var getChoosenAspectQuestionNegative = exports.getChoosenAspectQuestionNegative = function getChoosenAspectQuestionNegative(state, aspect) {
+	  return state['question_negative'][aspect];
 	};
 
 /***/ },
@@ -40961,6 +40957,8 @@
 
 	var AspectResponse = function AspectResponse(_ref) {
 	  var options = _ref.options,
+	      positiveTitle = _ref.positiveTitle,
+	      negativeTitle = _ref.negativeTitle,
 	      choosen_aspects = _ref.choosen_aspects,
 	      props = _ref.props,
 	      choosen_aspect_options = _ref.choosen_aspect_options,
@@ -40989,7 +40987,7 @@
 	    _react2.default.createElement(
 	      'div',
 	      { className: 'main-form' },
-	      _react2.default.createElement(_titleView2.default, { title: 'We apologize for not being able to delight you.' }),
+	      _react2.default.createElement(_titleView2.default, { title: positiveTitle }),
 	      _react2.default.createElement(
 	        'div',
 	        { className: 'response-view' },
@@ -40999,18 +40997,7 @@
 	          _react2.default.createElement(
 	            'h2',
 	            null,
-	            'What did you not like about?'
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'option-hollow' },
-	            _react2.default.createElement(
-	              'span',
-	              null,
-	              props.params.aspect.split('-').map(function (s) {
-	                return s.charAt(0).toUpperCase() + s.slice(1);
-	              }).join(' ')
-	            )
+	            negativeTitle
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -41033,6 +41020,8 @@
 	    options: selectors.getAspectOptions(state, props.params.aspect),
 	    choosen_aspects: selectors.getChoosenAspects(state),
 	    choosen_aspect_options: selectors.getChoosenAspectOptions(state, props.params.aspect),
+	    positiveTitle: selectors.getChoosenAspectQuestionPositive(state, props.params.aspect),
+	    negativeTitle: selectors.getChoosenAspectQuestionNegative(state, props.params.aspect),
 	    props: props
 	  };
 	};
@@ -41231,6 +41220,7 @@
 	var Start = function Start(_ref) {
 	  var rating = _ref.rating,
 	      questionRated = _ref.questionRated,
+	      threshold = _ref.threshold,
 	      props = _ref.props;
 
 
@@ -41249,7 +41239,7 @@
 	  }
 
 	  if (rating === 0) var nextLink = '';else {
-	    if (rating > 4) nextLink = '/feedback';else nextLink = '/aspects';
+	    if (rating > threshold) nextLink = '/feedback';else nextLink = '/aspects';
 	  }
 
 	  if (rating > 0) {}
@@ -41278,6 +41268,7 @@
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
 	    rating: state.rating,
+	    threshold: state.rating_threshold,
 	    props: props
 	  };
 	};
@@ -41286,6 +41277,91 @@
 
 /***/ },
 /* 302 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactRedux = __webpack_require__(33);
+
+	var _actions = __webpack_require__(220);
+
+	var actionCreators = _interopRequireWildcard(_actions);
+
+	var _selectors = __webpack_require__(291);
+
+	var selectors = _interopRequireWildcard(_selectors);
+
+	var _footer = __webpack_require__(292);
+
+	var _footer2 = _interopRequireDefault(_footer);
+
+	var _titleView = __webpack_require__(293);
+
+	var _titleView2 = _interopRequireDefault(_titleView);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var SelectUnit = function SelectUnit(_ref) {
+	  var props = _ref.props,
+	      selectedUnit = _ref.selectedUnit,
+	      selectUnit = _ref.selectUnit,
+	      title = _ref.title,
+	      placeholder = _ref.placeholder,
+	      units = _ref.units;
+
+
+	  var nextLink = '/contact';
+
+	  var onChange = function onChange(e) {
+	    console.log(e.target.value);
+	    selectUnit(e.target.value);
+	  };
+
+	  return _react2.default.createElement(
+	    'section',
+	    { className: 'select-unit-section' },
+	    _react2.default.createElement(
+	      'div',
+	      { className: 'select-form' },
+	      _react2.default.createElement(_titleView2.default, { title: title }),
+	      _react2.default.createElement(
+	        'div',
+	        { className: 'select-response' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'form-field' },
+	          _react2.default.createElement('input', { placeholder: placeholder, onChange: onChange, type: 'text', required: 'required' })
+	        )
+	      )
+	    ),
+	    _react2.default.createElement(_footer2.default, { nextLink: nextLink })
+	  );
+	};
+
+	var mapStateToProps = function mapStateToProps(state, props) {
+	  return {
+	    title: state.units_question,
+	    placeholder: state.units_placeholder_text,
+	    units: state.units,
+	    props: props,
+	    selectedUnit: state.selectedUnit
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, actionCreators)(SelectUnit);
+
+/***/ },
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -41347,6 +41423,15 @@
 	      fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL', {
 	        method: 'POST',
 	        body: JSON.stringify(output)
+	      }).then(function () {
+	        setTimeout(function () {
+	          window.location = '/';
+	        }, 2000);
+	      }).catch(function (err) {
+	        setTimeout(function () {
+	          window.location = '/';
+	        }, 2000);
+	        console.log(err);
 	      });
 	    }, 10);
 	  };
@@ -41395,7 +41480,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, actionCreators)(End);
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -41465,7 +41550,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
