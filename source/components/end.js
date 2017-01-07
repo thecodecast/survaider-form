@@ -34,7 +34,20 @@ const End = ({state}) => {
       fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL', {
         method: 'POST',
         body: JSON.stringify(output)
-      });
+      })
+      .then(() => {
+        setTimeout(() => {
+          window.location = '/';
+        }, 2000);
+      })
+      .catch((err) => {
+        setTimeout(() => {
+          window.location = '/';
+        }, 2000);
+        console.log(err);
+      })
+
+
     }, 10);
 
   }

@@ -9,7 +9,7 @@ import TitleView from './titleView';
 import Feedback from './feedback';
 import StarView from './star';
 
-const Start = ({rating, questionRated, props}) => {
+const Start = ({rating, questionRated, threshold, props}) => {
 
   let numberOfStars = 5;
   let starViews = [];
@@ -26,9 +26,11 @@ const Start = ({rating, questionRated, props}) => {
     }
   }
 
+
+
   if (rating === 0) var nextLink = '';
   else{
-    if (rating > 4) nextLink = '/feedback';
+    if (rating > threshold) nextLink = '/feedback';
     else nextLink = '/aspects';
   }
 
@@ -55,6 +57,7 @@ const Start = ({rating, questionRated, props}) => {
 const mapStateToProps = (state, props) => {
   return {
     rating: state.rating,
+    threshold: state.rating_threshold,
     props
   }
 };

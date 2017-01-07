@@ -54,6 +54,15 @@ export const giveFeedback = (feedback = '') => {
   }
 };
 
+export const selectUnit = (selectedUnit = '') => {
+  return {
+    type: 'app/selectUnit',
+    payload: {
+      selectedUnit
+    }
+  }
+};
+
 export const onContactNameChange = (name = '') => {
   return {
     type: 'app/onContactNameChange',

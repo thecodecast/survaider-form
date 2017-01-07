@@ -7,7 +7,8 @@ let initialState = {
   aspects_options: [],
   choosen_aspects: [],
   choosen_aspects_options: {},
-  rating: 0
+  rating: 0,
+  selectedUnit: ''
 };
 
 // let cachedState = window.localStorage.getItem('state');
@@ -56,6 +57,9 @@ export const reducer = (state = initialState, { type, payload }) => {
       break;
     case 'app/giveFeedback':
       return merge(state, { ['feedback']: payload.feedback })
+      break;
+    case 'app/selectUnit':
+      return merge(state, { ['selectedUnit']: payload.selectedUnit })
       break;
     case 'app/onContactNameChange':
       return merge(state, { ['contact']: merge( state.contact, { name: payload.name } ) } );

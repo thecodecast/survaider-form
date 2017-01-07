@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 
 import Container from './container';
 
-class App extends Component{
-  render(){
-    return (
-        <Container />
-    );
-  }
+const App = ({isParent}) =>{
+  return (
+      <Container isParent={isParent} />
+  );
 }
 
 export default App;

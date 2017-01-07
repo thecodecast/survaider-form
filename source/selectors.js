@@ -19,3 +19,11 @@ export const getChoosenAspects = (state) => {
 export const getChoosenAspectOptions = (state, aspect) => {
   return state['choosen_aspects_options'][aspect];
 };
+
+export const getChoosenAspectQuestionPositive = (state, aspect) => {
+  return state['question_positive'][aspect];
+};
+
+export const getChoosenAspectQuestionNegative = (state, aspect) => {
+  return state['question_negative'][aspect];
+};

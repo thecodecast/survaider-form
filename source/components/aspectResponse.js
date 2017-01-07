@@ -10,7 +10,7 @@ import TitleView from './titleView';
 import OptionView from './optionView';
 import Footer from './footer';
 
-const AspectResponse = ({options, choosen_aspects, props, choosen_aspect_options, selectAspectOption}) => {
+const AspectResponse = ({options, positiveTitle, negativeTitle, choosen_aspects, props, choosen_aspect_options, selectAspectOption}) => {
 
   let optionsViews = options.map((title, index) => {
     if (choosen_aspect_options && indexOf(index, choosen_aspect_options) !== -1) {
@@ -35,14 +35,14 @@ const AspectResponse = ({options, choosen_aspects, props, choosen_aspect_options
 
       <div className="main-form">
 
-        <TitleView title="We apologize for not being able to delight you." />
+        <TitleView title={positiveTitle} />
 
         <div className="response-view">
           <div className="sub-question-view">
-            <h2>What did you not like about?</h2>
-            <div className="option-hollow">
+            <h2>{negativeTitle}</h2>
+            { /*<div className="option-hollow">
               <span>{props.params.aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ')}</span>
-            </div>
+            </div> */}
             <div className="sub-response-view">
               <div className="radio-options-group">
                 {optionsViews}
@@ -63,6 +63,8 @@ const mapStateToProps = (state, props) => {
     options: selectors.getAspectOptions(state, props.params.aspect),
     choosen_aspects: selectors.getChoosenAspects(state),
     choosen_aspect_options: selectors.getChoosenAspectOptions(state, props.params.aspect),
+    positiveTitle: selectors.getChoosenAspectQuestionPositive(state, props.params.aspect),
+    negativeTitle: selectors.getChoosenAspectQuestionNegative(state, props.params.aspect),
     props
   }
 };

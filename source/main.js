@@ -13,7 +13,7 @@ import Loading from './components/loading';
 setTimeout(() => {
 
 
-  fetch('data.json')
+  fetch('data2.json')
     .then( (res) => { return res.json() } )
     .then( (json) => {
 
@@ -29,6 +29,11 @@ setTimeout(() => {
 
       data['business_name'] = json['business_name'];
       data['logo_link'] = json['logo_link'];
+      data['feedback_title'] = json['aspect_question_positive'];
+      data['choose_aspect_title'] = json['aspect_question_negative'];
+      data['rating_threshold'] = json['rating_threshold'];
+
+
 
       data['aspects_names'] = json['aspect_options'].map((aspect) => {
         let name = aspect.aspect;
@@ -36,20 +41,27 @@ setTimeout(() => {
         return name;
       });
       data['aspects_options'] = {};
+      data['question_positive'] = {};
+      data['question_negative'] = {};
+
+      data['units_question'] = json['units_question'];
+      data['units_placeholder_text'] = json['units_placeholder_text'];
+      data['units'] = json['units'];
 
       json['aspect_options'].forEach((aspect) => {
         let aspect_name = aspect.aspect.toLowerCase().split(' ').join('-');
-        let aspect_options = aspect.options.map((option, index) => {
-          let optionKey = Object.keys(option)[0];
-          return option[optionKey];
+        let aspect_options = Object.keys(aspect.options).map((key) => {
+          return aspect.options[key];
         });
         data['aspects_options'][aspect_name] = aspect_options;
+        data['question_positive'][aspect_name] = aspect['question_positive'];
+        data['question_negative'][aspect_name] = aspect['question_negative'];
       });
 
       store.dispatch(actions.dataLoaded(data));
 
       render(<Provider store={store}>
-              <App />
+              <App isParent={json['is_parent']} />
             </Provider>,
       document.getElementById('mainApp'));
 

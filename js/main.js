@@ -40757,8 +40757,8 @@
 	      value = _ref.value;
 
 
-	  var unselectColor = '#E9F1DE';
-	  var selectColor = '#007E8D';
+	  var unselectColor = '#DDDDDD';
+	  var selectColor = '#111111';
 
 	  return _react2.default.createElement(
 	    'div',

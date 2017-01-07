@@ -1,0 +1,61 @@
+{
+    "is_parent": true,
+    "units_question": "Which hotel did you visit?",
+    "units_placeholder_text": "Enter hotel name here",
+    "units": [
+        {"name": "Unit 1", "survey_id": "aZ3mDpQw67A8L5KXyMQ"},
+        {"name": "Unit 2", "survey_id": "eprJWMVJmzlgeZZkmzX"},
+        {"name": "Unit 3", "survey_id": "goZJO7VJKxB5grrkKx9"}
+    ],
+    "business_name": "Sterling Hotels",
+    "logo_link": "https://s3.ap-south-1.amazonaws.com/survaider-static-files/logos/sterling_medium.png",
+    "rating_threshold": 3,
+    "aspect_question_positive": "Thank you! Also, please let us know what can we improve.",
+    "aspect_question_negative": "We are sorry to hear that! What went wrong?",
+    "aspect_options": [
+        {
+            "aspect": "Cleanliness",
+            "question_positive": "What can we improve in Cleanliness?",
+            "question_negative": "What did you not like about Cleanliness?",
+            "options": {
+                "1": "Bathroom and toiletries",
+                "2": "Bed, cover and upholstery",
+                "3": "Kitchen",
+                "4": "Lobby, the interiors in general"
+            }
+        },
+        {
+            "aspect": "Location",
+            "question_positive": "What can we improve in Location?",
+            "question_negative": "What did you not like about Location?",
+            "options": {
+                "1": "Location Option 1",
+                "2": "Location Option 2",
+                "3": "Location Option 3",
+                "4": "Location Option 4"
+            }
+        },
+        {
+            "aspect": "Value For Money",
+            "question_positive": "What can we improve in Value For Money?",
+            "question_negative": "What did you not like about Value For Money?",
+            "options": {
+                "1": "Value For Money Option 1",
+                "2": "Value For Money Option 2",
+                "3": "Value For Money Option 3",
+                "4": "Value For Money Option 4"
+            }
+        },
+        {
+            "aspect": "Rooms",
+            "question_positive": "What can we improve in Rooms?",
+            "question_negative": "What did you not like about Rooms?",
+            "options": {
+                "1": "Rooms Option 1",
+                "2": "Rooms Option 2",
+                "3": "Rooms Option 3",
+                "4": "Rooms Option 4"
+            }
+        }
+    ]
+}
