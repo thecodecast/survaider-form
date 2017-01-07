@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 
 const StarView = ({fill, onClick, value}) => {
 
-  let unselectColor = '#E9F1DE';
-  let selectColor = '#007E8D';
+  let unselectColor = '#DDDDDD';
+  let selectColor = '#111111';
 
   return (
     <div onClick={onClick.bind(null, value)} className="star-svg">
