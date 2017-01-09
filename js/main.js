@@ -92,7 +92,7 @@
 	      choosen_aspects_options: {},
 	      rating: 0,
 	      selectedUnit: {
-	        name: '',
+	        unit_name: '',
 	        survey_id: ''
 	      }
 	    };
@@ -24304,7 +24304,8 @@
 	  selectedUnit: {
 	    unit_name: '',
 	    survey_id: ''
-	  }
+	  },
+	  nextLink: ''
 	};
 
 	// let cachedState = window.localStorage.getItem('state');
@@ -24326,6 +24327,9 @@
 	      payload = _ref.payload;
 
 	  switch (type) {
+	    case 'app/setNextLink':
+	      return (0, _ramda.merge)(state, { nextLink: payload.nextLink });
+	      break;
 	    case 'app/dataLoaded':
 	      return payload.data;
 	      break;
@@ -33230,6 +33234,17 @@
 	//7. User give contact details
 
 
+	var setNextLink = exports.setNextLink = function setNextLink() {
+	  var nextLink = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+
+	  return {
+	    type: 'app/setNextLink',
+	    payload: {
+	      nextLink: nextLink
+	    }
+	  };
+	};
+
 	var dataLoaded = exports.dataLoaded = function dataLoaded(data) {
 	  return {
 	    type: 'app/dataLoaded',
@@ -33404,6 +33419,10 @@
 
 	var _end2 = _interopRequireDefault(_end);
 
+	var _footer = __webpack_require__(292);
+
+	var _footer2 = _interopRequireDefault(_footer);
+
 	var _ = __webpack_require__(304);
 
 	var _2 = _interopRequireDefault(_);
@@ -33421,6 +33440,8 @@
 	    indexRoute = _react2.default.createElement(_reactRouter.IndexRoute, { component: _selectUnit2.default });
 	    startRoute = _react2.default.createElement(_reactRouter.Route, { path: '/rate', component: _start2.default });
 	  }
+
+	  window.bh = _reactRouter.browserHistory;
 
 	  return _react2.default.createElement(
 	    'div',
@@ -33441,7 +33462,8 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '/thank-you', component: _end2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
 	      )
-	    )
+	    ),
+	    _react2.default.createElement(_footer2.default, { router: _reactRouter.browserHistory })
 	  );
 	};
 
@@ -40553,7 +40575,17 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactRouter = __webpack_require__(223);
+	var _reactRedux = __webpack_require__(33);
+
+	var _actions = __webpack_require__(220);
+
+	var actionCreators = _interopRequireWildcard(_actions);
+
+	var _selectors = __webpack_require__(291);
+
+	var selectors = _interopRequireWildcard(_selectors);
+
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40569,12 +40601,41 @@
 	  function Footer() {
 	    _classCallCheck(this, Footer);
 
-	    return _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Footer.__proto__ || Object.getPrototypeOf(Footer)).call(this));
+
+	    _this.state = {
+	      showSpinner: false
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Footer, [{
+	    key: 'navigate',
+	    value: function navigate(e) {
+	      var _this2 = this;
+
+	      e.preventDefault();
+	      this.setState({
+	        showSpinner: true
+	      });
+	      setTimeout(function () {
+	        _this2.setState({
+	          showSpinner: false
+	        });
+	        _this2.props.router.push(_this2.props.nextLink);
+	      }, 1000);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var spinner = _react2.default.createElement(
+	        'div',
+	        { className: 'spinner' },
+	        _react2.default.createElement('div', { className: 'bounce1' }),
+	        _react2.default.createElement('div', { className: 'bounce2' }),
+	        _react2.default.createElement('div', { className: 'bounce3' })
+	      );
+
 	      return _react2.default.createElement(
 	        'footer',
 	        { className: 'survaider-home-footer clearfix' },
@@ -40599,19 +40660,20 @@
 	          'div',
 	          { className: 'form-action skip-action pull-right' },
 	          _react2.default.createElement(
-	            _reactRouter.Link,
+	            Link,
 	            { to: this.props.skipLink, className: 'hollow-button' },
 	            'Skip'
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'form-action next-action pull-right' },
+	          { onClick: this.navigate.bind(this), className: 'form-action pull-right' },
 	          _react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: this.props.nextLink, className: 'hollow-button' },
+	            'button',
+	            { className: 'next-action hollow-button' },
 	            'Next'
-	          )
+	          ),
+	          this.state.showSpinner ? spinner : ''
 	        )
 	      );
 	    }
@@ -40620,7 +40682,14 @@
 	  return Footer;
 	}(_react.Component);
 
-	exports.default = Footer;
+	var mapStateToProps = function mapStateToProps(state, props) {
+	  return {
+	    props: props,
+	    nextLink: state.nextLink
+	  };
+	};
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, actionCreators)(Footer);
 
 /***/ },
 /* 293 */
@@ -40685,6 +40754,8 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -40711,38 +40782,70 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Feedback = function Feedback(_ref) {
-	  var props = _ref.props,
-	      giveFeedback = _ref.giveFeedback,
-	      feedback = _ref.feedback;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  var nextLink = '/contact';
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  var onChange = function onChange(e) {
-	    giveFeedback(e.target.value);
-	  };
+	var Feedback = function (_Component) {
+	  _inherits(Feedback, _Component);
 
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'survaider-home-main' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'main-form' },
-	      _react2.default.createElement(_titleView2.default, { title: 'Thank you! Also, please let me know how we can improve.' }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'response-view feedback-response' },
+	  function Feedback() {
+	    _classCallCheck(this, Feedback);
+
+	    var _this = _possibleConstructorReturn(this, (Feedback.__proto__ || Object.getPrototypeOf(Feedback)).call(this));
+
+	    _this.state = {
+	      feedback: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Feedback, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var nextLink = '/contact';
+	      this.props.setNextLink(nextLink);
+
+	      this.setState({
+	        feedback: this.props.feedback
+	      });
+	    }
+	  }, {
+	    key: 'onChange',
+	    value: function onChange(e) {
+	      this.setState({
+	        feedback: e.target.value
+	      });
+	      this.props.giveFeedback(e.target.value);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'survaider-home-main' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'feedback-textarea' },
-	          _react2.default.createElement('textarea', { onChange: onChange, value: feedback, name: 'feedback', rows: '10', cols: '80', placeholder: 'Your thoughts here...' })
+	          { className: 'main-form' },
+	          _react2.default.createElement(_titleView2.default, { title: 'Thank you! Also, please let me know how we can improve.' }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'response-view feedback-response' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'feedback-textarea' },
+	              _react2.default.createElement('textarea', { onChange: this.onChange.bind(this), value: this.state.feedback, name: 'feedback', rows: '10', cols: '80', placeholder: 'Your thoughts here...' })
+	            )
+	          )
 	        )
-	      )
-	    ),
-	    _react2.default.createElement(_footer2.default, { nextLink: nextLink })
-	  );
-	};
+	      );
+	    }
+	  }]);
+
+	  return Feedback;
+	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
@@ -40807,6 +40910,8 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -40841,52 +40946,71 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ChooseAspects = function ChooseAspects(_ref) {
-	  var aspects = _ref.aspects,
-	      choosen_aspects = _ref.choosen_aspects,
-	      choseAspect = _ref.choseAspect;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  var previous_aspects = choosen_aspects.map(function (s) {
-	    return s.split('-').map(function (s) {
-	      return s.charAt(0).toUpperCase() + s.slice(1);
-	    }).join(' ');
-	  });
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  var aspectViews = aspects.map(function (name, index) {
+	var ChooseAspects = function (_Component) {
+	  _inherits(ChooseAspects, _Component);
 
-	    if ((0, _ramda.indexOf)(name, previous_aspects) !== -1) {
-	      return _react2.default.createElement(_aspectView2.default, { checked: true, onClick: choseAspect.bind(undefined), name: name, key: index, index: index });
-	    } else {
-	      return _react2.default.createElement(_aspectView2.default, { checked: false, onClick: choseAspect.bind(undefined), name: name, key: index, index: index });
-	    }
-	  });
+	  function ChooseAspects() {
+	    _classCallCheck(this, ChooseAspects);
 
-	  var nextLink = '';
-	  if (choosen_aspects.length > 0) {
-	    nextLink = '/aspects/' + choosen_aspects[0];
+	    return _possibleConstructorReturn(this, (ChooseAspects.__proto__ || Object.getPrototypeOf(ChooseAspects)).call(this));
 	  }
 
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'survaider-home-main' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'main-form' },
-	      _react2.default.createElement(_titleView2.default, { title: 'I am so sorry to hear that what went wrong?' }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'response-view options-response' },
+	  _createClass(ChooseAspects, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var nextLink = '';
+	      if (nextProps.choosen_aspects.length > 0) {
+	        nextLink = '/aspects/' + nextProps.choosen_aspects[0];
+	      }
+	      nextProps.setNextLink(nextLink);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var previous_aspects = this.props.choosen_aspects.map(function (s) {
+	        return s.split('-').map(function (s) {
+	          return s.charAt(0).toUpperCase() + s.slice(1);
+	        }).join(' ');
+	      });
+	      var aspectViews = this.props.aspects.map(function (name, index) {
+	        if ((0, _ramda.indexOf)(name, previous_aspects) !== -1) {
+	          return _react2.default.createElement(_aspectView2.default, { checked: true, onClick: _this2.props.choseAspect.bind(_this2), name: name, key: index, index: index });
+	        } else {
+	          return _react2.default.createElement(_aspectView2.default, { checked: false, onClick: _this2.props.choseAspect.bind(_this2), name: name, key: index, index: index });
+	        }
+	      });
+
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'survaider-home-main' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'options-group' },
-	          aspectViews
+	          { className: 'main-form' },
+	          _react2.default.createElement(_titleView2.default, { title: 'I am so sorry to hear that what went wrong?' }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'response-view options-response' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'options-group' },
+	              aspectViews
+	            )
+	          )
 	        )
-	      )
-	    ),
-	    _react2.default.createElement(_footer2.default, { nextLink: nextLink })
-	  );
-	};
+	      );
+	    }
+	  }]);
+
+	  return ChooseAspects;
+	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
@@ -40943,6 +41067,8 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -40977,65 +41103,82 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var AspectResponse = function AspectResponse(_ref) {
-	  var options = _ref.options,
-	      positiveTitle = _ref.positiveTitle,
-	      negativeTitle = _ref.negativeTitle,
-	      choosen_aspects = _ref.choosen_aspects,
-	      props = _ref.props,
-	      choosen_aspect_options = _ref.choosen_aspect_options,
-	      selectAspectOption = _ref.selectAspectOption;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  var optionsViews = options.map(function (title, index) {
-	    if (choosen_aspect_options && (0, _ramda.indexOf)(index, choosen_aspect_options) !== -1) {
-	      return _react2.default.createElement(_optionView2.default, { checked: true, onClick: selectAspectOption.bind(undefined, props.params.aspect, index), index: index, key: index, title: title });
-	    } else {
-	      return _react2.default.createElement(_optionView2.default, { checked: false, onClick: selectAspectOption.bind(undefined, props.params.aspect, index), index: index, key: index, title: title });
-	    }
-	  });
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  var indexOfThis = (0, _ramda.indexOf)(props.params.aspect, choosen_aspects);
-	  var nextLink = '';
-	  if (indexOfThis + 1 === choosen_aspects.length) {
-	    nextLink = '/feedback';
-	  } else {
-	    nextLink = '/aspects/' + choosen_aspects[indexOfThis + 1];
+	var AspectResponse = function (_Component) {
+	  _inherits(AspectResponse, _Component);
+
+	  function AspectResponse() {
+	    _classCallCheck(this, AspectResponse);
+
+	    return _possibleConstructorReturn(this, (AspectResponse.__proto__ || Object.getPrototypeOf(AspectResponse)).call(this));
 	  }
 
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'survaider-home-main' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'main-form' },
-	      _react2.default.createElement(_titleView2.default, { title: positiveTitle }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'response-view' },
+	  _createClass(AspectResponse, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var indexOfThis = (0, _ramda.indexOf)(this.props.params.aspect, nextProps.choosen_aspects);
+	      var nextLink = '';
+	      if (indexOfThis + 1 === nextProps.choosen_aspects.length) {
+	        nextLink = '/feedback';
+	      } else {
+	        nextLink = '/aspects/' + nextProps.choosen_aspects[indexOfThis + 1];
+	      }
+	      nextProps.setNextLink(nextLink);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var optionsViews = this.props.options.map(function (title, index) {
+	        if (_this2.props.choosen_aspect_options && (0, _ramda.indexOf)(index, _this2.props.choosen_aspect_options) !== -1) {
+	          return _react2.default.createElement(_optionView2.default, { checked: true, onClick: _this2.props.selectAspectOption.bind(_this2, _this2.props.params.aspect, index), index: index, key: index, title: title });
+	        } else {
+	          return _react2.default.createElement(_optionView2.default, { checked: false, onClick: _this2.props.selectAspectOption.bind(_this2, _this2.props.params.aspect, index), index: index, key: index, title: title });
+	        }
+	      });
+
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'survaider-home-main' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'sub-question-view' },
-	          _react2.default.createElement(
-	            'h2',
-	            null,
-	            negativeTitle
-	          ),
+	          { className: 'main-form' },
+	          _react2.default.createElement(_titleView2.default, { title: this.props.positiveTitle }),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'sub-response-view' },
+	            { className: 'response-view' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'radio-options-group' },
-	              optionsViews
+	              { className: 'sub-question-view' },
+	              _react2.default.createElement(
+	                'h2',
+	                null,
+	                this.props.negativeTitle
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'sub-response-view' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'radio-options-group' },
+	                  optionsViews
+	                )
+	              )
 	            )
 	          )
 	        )
-	      )
-	    ),
-	    _react2.default.createElement(_footer2.default, { nextLink: nextLink })
-	  );
-	};
+	      );
+	    }
+	  }]);
+
+	  return AspectResponse;
+	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
@@ -41096,6 +41239,8 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -41118,78 +41263,119 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Contact = function Contact(_ref) {
-	  var _ref$contact = _ref.contact,
-	      contact = _ref$contact === undefined ? {} : _ref$contact,
-	      props = _ref.props,
-	      onContactNameChange = _ref.onContactNameChange,
-	      onContactEmailChange = _ref.onContactEmailChange,
-	      onContactMobileChange = _ref.onContactMobileChange;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  var nextLink = '/thank-you';
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  var onNameChange = function onNameChange(e) {
-	    onContactNameChange(e.target.value);
-	  };
+	var Contact = function (_Component) {
+	  _inherits(Contact, _Component);
 
-	  var onEmailChange = function onEmailChange(e) {
-	    onContactEmailChange(e.target.value);
-	  };
+	  function Contact() {
+	    _classCallCheck(this, Contact);
 
-	  var onMobileChange = function onMobileChange(e) {
-	    onContactMobileChange(e.target.value);
-	  };
+	    var _this = _possibleConstructorReturn(this, (Contact.__proto__ || Object.getPrototypeOf(Contact)).call(this));
 
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'survaider-home-main' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'main-form' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'contact-form' },
+	    _this.state = {
+	      name: '',
+	      email: '',
+	      mobile: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Contact, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var nextLink = '/thank-you';
+	      this.props.setNextLink(nextLink);
+
+	      this.setState({
+	        name: this.props.contact.name,
+	        email: this.props.contact.email,
+	        mobile: this.props.contact.mobile
+	      });
+	    }
+	  }, {
+	    key: 'onNameChange',
+	    value: function onNameChange(e) {
+	      this.setState({
+	        name: e.target.value
+	      });
+	      this.props.onContactNameChange(e.target.value);
+	    }
+	  }, {
+	    key: 'onEmailChange',
+	    value: function onEmailChange(e) {
+	      this.setState({
+	        email: e.target.value
+	      });
+	      this.props.onContactEmailChange(e.target.value);
+	    }
+	  }, {
+	    key: 'onMobileChange',
+	    value: function onMobileChange(e) {
+	      this.setState({
+	        mobile: e.target.value
+	      });
+	      this.props.onContactMobileChange(e.target.value);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'survaider-home-main' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'form-field' },
-	          _react2.default.createElement('input', { value: contact.name, onChange: onNameChange, type: 'text', name: 'name', id: 'name', placeholder: 'Name:', required: 'required' }),
+	          { className: 'main-form' },
 	          _react2.default.createElement(
-	            'label',
-	            { htmlFor: 'name' },
-	            'Name:'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'form-field' },
-	          _react2.default.createElement('input', { value: contact.email, onChange: onEmailChange, type: 'email', name: 'email', id: 'email', placeholder: 'Email:', required: 'required' }),
-	          _react2.default.createElement(
-	            'label',
-	            { htmlFor: 'email' },
-	            'Email:'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'form-field' },
-	          _react2.default.createElement('input', { value: contact.mobile, onChange: onMobileChange, type: 'text', name: 'mobile', id: 'mobile', placeholder: 'Phone:', required: 'required' }),
-	          _react2.default.createElement(
-	            'label',
-	            { htmlFor: 'mobile' },
-	            'Mobile:'
+	            'div',
+	            { className: 'contact-form' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-field' },
+	              _react2.default.createElement('input', { value: this.state.name, onChange: this.onNameChange.bind(this), type: 'text', name: 'name', id: 'name', placeholder: 'Name:', required: 'required' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'name' },
+	                'Name:'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-field' },
+	              _react2.default.createElement('input', { value: this.state.email, onChange: this.onEmailChange.bind(this), type: 'email', name: 'email', id: 'email', placeholder: 'Email:', required: 'required' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'email' },
+	                'Email:'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'form-field' },
+	              _react2.default.createElement('input', { value: this.state.mobile, onChange: this.onMobileChange.bind(this), type: 'text', name: 'mobile', id: 'mobile', placeholder: 'Phone:', required: 'required' }),
+	              _react2.default.createElement(
+	                'label',
+	                { htmlFor: 'mobile' },
+	                'Mobile:'
+	              )
+	            )
 	          )
 	        )
-	      )
-	    ),
-	    _react2.default.createElement(_footer2.default, { nextLink: nextLink })
-	  );
-	};
+	      );
+	    }
+	  }]);
+
+	  return Contact;
+	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
 	    props: props,
-	    contact: state.contact
+	    contact: state.contact || { name: '', email: '', mobile: '' }
 	  };
 	};
 
@@ -41204,6 +41390,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
@@ -41239,53 +41427,80 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Start = function Start(_ref) {
-	  var rating = _ref.rating,
-	      questionRated = _ref.questionRated,
-	      threshold = _ref.threshold,
-	      props = _ref.props;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  var numberOfStars = 5;
-	  var starViews = [];
-	  var onStarClick = function onStarClick(index) {
-	    questionRated(index + 1);
-	  };
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  for (var i = 0; i < numberOfStars; i++) {
-	    if (i < rating) {
-	      starViews.push(_react2.default.createElement(_star2.default, { onClick: onStarClick.bind(undefined), value: i, key: i, fill: true }));
-	    } else {
-	      starViews.push(_react2.default.createElement(_star2.default, { onClick: onStarClick.bind(undefined), value: i, key: i, fill: false }));
+	var Start = function (_Component) {
+	  _inherits(Start, _Component);
+
+	  function Start() {
+	    _classCallCheck(this, Start);
+
+	    var _this = _possibleConstructorReturn(this, (Start.__proto__ || Object.getPrototypeOf(Start)).call(this));
+
+	    _this.state = {
+	      numberOfStars: 5
+	    };
+	    return _this;
+	  }
+
+	  _createClass(Start, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      var rating = nextProps.rating,
+	          setNextLink = nextProps.setNextLink,
+	          threshold = nextProps.threshold;
+
+	      if (rating === 0) var nextLink = '';else {
+	        if (rating > threshold) nextLink = '/feedback';else nextLink = '/aspects';
+	      }
+
+	      if (rating > 0) {}
+	      setNextLink(nextLink);
 	    }
-	  }
+	  }, {
+	    key: 'onStarClick',
+	    value: function onStarClick(index) {
+	      this.props.questionRated(index + 1);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var starViews = [];
+	      for (var i = 0; i < this.state.numberOfStars; i++) {
+	        if (i < this.props.rating) {
+	          starViews.push(_react2.default.createElement(_star2.default, { onClick: this.onStarClick.bind(this), value: i, key: i, fill: true }));
+	        } else {
+	          starViews.push(_react2.default.createElement(_star2.default, { onClick: this.onStarClick.bind(this), value: i, key: i, fill: false }));
+	        }
+	      }
 
-	  if (rating === 0) var nextLink = '';else {
-	    if (rating > threshold) nextLink = '/feedback';else nextLink = '/aspects';
-	  }
-
-	  if (rating > 0) {}
-
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'survaider-home-main' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'main-form' },
-	      _react2.default.createElement(_titleView2.default, { title: 'How likely are you to recommend this experience to your friends?' }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'response-view rating-response' },
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'survaider-home-main' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'stars-group' },
-	          starViews
+	          { className: 'main-form' },
+	          _react2.default.createElement(_titleView2.default, { title: 'How likely are you to recommend this experience to your friends?' }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'response-view rating-response' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'stars-group' },
+	              starViews
+	            )
+	          )
 	        )
-	      )
-	    ),
-	    _react2.default.createElement(_footer2.default, { nextLink: nextLink })
-	  );
-	};
+	      );
+	    }
+	  }]);
+
+	  return Start;
+	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
@@ -41386,6 +41601,7 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      this.props.setNextLink('/rate');
 	      this.setState({
 	        units: this.props.units,
 	        selectedUnitName: this.props.selectedUnit.unit_name
@@ -41403,7 +41619,6 @@
 	          unit.unit_name
 	        );
 	      });
-	      var nextLink = '/rate';
 
 	      return _react2.default.createElement(
 	        'section',
@@ -41422,8 +41637,7 @@
 	              this.state.showResults ? unitResults : ''
 	            )
 	          )
-	        ),
-	        _react2.default.createElement(_footer2.default, { nextLink: nextLink })
+	        )
 	      );
 	    }
 	  }]);
@@ -41517,6 +41731,7 @@
 	        setTimeout(function () {
 	          window.location = '/';
 	        }, 5000);
+	        console.log(output);
 	        console.log(err);
 	      });
 	    }, 10);
