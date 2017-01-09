@@ -77,7 +77,9 @@
 	//Imitating Loading Effect
 	setTimeout(function () {
 
-	  fetch('data2.json').then(function (res) {
+	  var url = 'http://35.154.105.198/survey/3NozaAp7Mg6z7BdmLVN';
+
+	  fetch(url).then(function (res) {
 	    return res.json();
 	  }).then(function (json) {
 
@@ -88,7 +90,11 @@
 	      aspects_options: [],
 	      choosen_aspects: [],
 	      choosen_aspects_options: {},
-	      rating: 0
+	      rating: 0,
+	      selectedUnit: {
+	        name: '',
+	        survey_id: ''
+	      }
 	    };
 
 	    data['business_name'] = json['business_name'];
@@ -119,6 +125,10 @@
 	      data['question_positive'][aspect_name] = aspect['question_positive'];
 	      data['question_negative'][aspect_name] = aspect['question_negative'];
 	    });
+
+	    if (!json['is_parent']) {
+	      data.selectedUnit.survey_id = url.substr(url.indexOf('survey/') + 'survey/'.length);
+	    }
 
 	    _store.store.dispatch(actions.dataLoaded(data));
 
@@ -24291,7 +24301,10 @@
 	  choosen_aspects: [],
 	  choosen_aspects_options: {},
 	  rating: 0,
-	  selectedUnit: ''
+	  selectedUnit: {
+	    unit_name: '',
+	    survey_id: ''
+	  }
 	};
 
 	// let cachedState = window.localStorage.getItem('state');
@@ -33400,6 +33413,15 @@
 	var Container = function Container(_ref) {
 	  var isParent = _ref.isParent;
 
+
+	  var indexRoute = _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default });
+	  var startRoute = '';
+
+	  if (isParent) {
+	    indexRoute = _react2.default.createElement(_reactRouter.IndexRoute, { component: _selectUnit2.default });
+	    startRoute = _react2.default.createElement(_reactRouter.Route, { path: '/rate', component: _start2.default });
+	  }
+
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'survaider-home' },
@@ -33409,9 +33431,9 @@
 	      { history: _reactRouter.browserHistory },
 	      _react2.default.createElement(
 	        _reactRouter.Route,
-	        { path: '/', component: _home2.default },
-	        _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default }),
-	        isParent ? _react2.default.createElement(_reactRouter.Route, { path: '/select-unit', component: _selectUnit2.default }) : '',
+	        { path: '/' },
+	        indexRoute,
+	        startRoute,
 	        _react2.default.createElement(_reactRouter.Route, { path: '/aspects', component: _chooseAspects2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/aspects/(:aspect)', component: _aspectResponse2.default }),
 	        _react2.default.createElement(_reactRouter.Route, { path: '/feedback', component: _feedback2.default }),
@@ -41285,6 +41307,8 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -41311,42 +41335,101 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var SelectUnit = function SelectUnit(_ref) {
-	  var props = _ref.props,
-	      selectedUnit = _ref.selectedUnit,
-	      selectUnit = _ref.selectUnit,
-	      title = _ref.title,
-	      placeholder = _ref.placeholder,
-	      units = _ref.units;
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
-	  var nextLink = '/contact';
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  var onChange = function onChange(e) {
-	    console.log(e.target.value);
-	    selectUnit(e.target.value);
-	  };
+	var SelectUnit = function (_Component) {
+	  _inherits(SelectUnit, _Component);
 
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'select-unit-section' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'select-form' },
-	      _react2.default.createElement(_titleView2.default, { title: title }),
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'select-response' },
+	  function SelectUnit() {
+	    _classCallCheck(this, SelectUnit);
+
+	    var _this = _possibleConstructorReturn(this, (SelectUnit.__proto__ || Object.getPrototypeOf(SelectUnit)).call(this));
+
+	    _this.state = {
+	      units: [],
+	      showResults: false,
+	      selectedUnitName: ''
+	    };
+	    return _this;
+	  }
+
+	  _createClass(SelectUnit, [{
+	    key: 'filterResults',
+	    value: function filterResults(e) {
+	      if (!this.state.showResults) {
+	        this.setState({
+	          showResults: true
+	        });
+	      }
+	      var query = e.target.value;
+	      var newFilteredUnits = this.props.units.filter(function (unit) {
+	        return unit.unit_name.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+	      });
+	      this.setState({
+	        units: newFilteredUnits,
+	        selectedUnitName: query
+	      });
+	    }
+	  }, {
+	    key: 'selectUnit',
+	    value: function selectUnit(unit_name, survey_id) {
+	      this.props.selectUnit({ unit_name: unit_name, survey_id: survey_id });
+	      this.setState({
+	        selectedUnitName: unit_name,
+	        showResults: false
+	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.setState({
+	        units: this.props.units,
+	        selectedUnitName: this.props.selectedUnit.unit_name
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      var unitResults = this.state.units.map(function (unit, idx) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: unit.survey_id, onClick: _this2.selectUnit.bind(_this2, unit.unit_name, unit.survey_id) },
+	          unit.unit_name
+	        );
+	      });
+	      var nextLink = '/rate';
+
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'survaider-home-main' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'form-field' },
-	          _react2.default.createElement('input', { placeholder: placeholder, onChange: onChange, type: 'text', required: 'required' })
-	        )
-	      )
-	    ),
-	    _react2.default.createElement(_footer2.default, { nextLink: nextLink })
-	  );
-	};
+	          { className: 'main-form' },
+	          _react2.default.createElement(_titleView2.default, { title: this.props.title }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'select-search' },
+	            _react2.default.createElement('input', { value: this.state.selectedUnitName, placeholder: this.props.placeholder, onChange: this.filterResults.bind(this), onClick: this.filterResults.bind(this), type: 'text', required: 'required' }),
+	            _react2.default.createElement(
+	              'ul',
+	              { className: 'units-results-list' },
+	              this.state.showResults ? unitResults : ''
+	            )
+	          )
+	        ),
+	        _react2.default.createElement(_footer2.default, { nextLink: nextLink })
+	      );
+	    }
+	  }]);
+
+	  return SelectUnit;
+	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
@@ -41400,9 +41483,9 @@
 	    output['rating'] = state.rating;
 	    output['response_text'] = state.feedback;
 	    output['respondent'] = state.contact;
-	    output['bad_aspects'] = [];
+	    output['disliked_aspects'] = [];
 
-	    output['bad_aspects'] = state.choosen_aspects && state.choosen_aspects.map(function (aspect) {
+	    output['disliked_aspects'] = state.choosen_aspects && state.choosen_aspects.map(function (aspect) {
 	      var newObject = {
 	        aspect: '',
 	        selected_options: []
@@ -41420,18 +41503,18 @@
 	    });
 
 	    setTimeout(function () {
-	      fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL', {
+	      fetch('http://35.154.105.198/survey/' + state.selectedUnit.survey_id, {
 	        method: 'POST',
 	        body: JSON.stringify(output)
 	      }).then(function () {
-	        setTimeout(function () {
-	          window.location = '/';
-	        }, 2000);
+	        // setTimeout(() => {
+	        //   window.location = '/';
+	        // }, 2000);
 	      }).catch(function (err) {
-	        setTimeout(function () {
-	          window.location = '/';
-	        }, 2000);
-	        console.log(err);
+	        // setTimeout(() => {
+	        //   window.location = '/';
+	        // }, 2000);
+	        // console.log(err);
 	      });
 	    }, 10);
 	  };
