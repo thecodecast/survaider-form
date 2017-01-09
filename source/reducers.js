@@ -8,7 +8,10 @@ let initialState = {
   choosen_aspects: [],
   choosen_aspects_options: {},
   rating: 0,
-  selectedUnit: ''
+  selectedUnit: {
+    unit_name: '',
+    survey_id: ''
+  }
 };
 
 // let cachedState = window.localStorage.getItem('state');

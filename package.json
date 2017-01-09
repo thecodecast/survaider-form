@@ -6,7 +6,7 @@
   "scripts": {
     "start": "webpack-dev-server --hot --inline --progress --profile --colors",
     "build": "webpack",
-    "deploy": "surge --domain survaider.surge.sh"
+    "deploy": "webpack && surge --domain survaider.surge.sh"
   },
   "author": "Ankur Singhal",
   "license": "ISC",

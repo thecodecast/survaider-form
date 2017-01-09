@@ -3,9 +3,9 @@
     "units_question": "Which hotel did you visit?",
     "units_placeholder_text": "Enter hotel name here",
     "units": [
-        {"name": "Unit 1", "survey_id": "aZ3mDpQw67A8L5KXyMQ"},
-        {"name": "Unit 2", "survey_id": "eprJWMVJmzlgeZZkmzX"},
-        {"name": "Unit 3", "survey_id": "goZJO7VJKxB5grrkKx9"}
+        {"name": "Kamla Nagar", "survey_id": "aZ3mDpQw67A8L5KXyMQ"},
+        {"name": "Tilak Nagar", "survey_id": "eprJWMVJmzlgeZZkmzX"},
+        {"name": "Hudson Lane", "survey_id": "goZJO7VJKxB5grrkKx9"}
     ],
     "business_name": "Sterling Hotels",
     "logo_link": "https://s3.ap-south-1.amazonaws.com/survaider-static-files/logos/sterling_medium.png",

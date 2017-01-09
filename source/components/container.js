@@ -13,13 +13,22 @@ import End from './end';
 import NotFound from './404';
 
 const Container = ({isParent}) => {
+
+  let indexRoute = <IndexRoute component={Start} />
+  let startRoute = '';
+
+  if (isParent) {
+    indexRoute = <IndexRoute component={SelectUnit} />;
+    startRoute = <Route path="/rate" component={Start} />;
+  }
+
   return (
     <div className="survaider-home">
       <Header />
       <Router history={browserHistory}>
-        <Route path="/" component={Home}>
-          <IndexRoute component={Start} />
-          { isParent ? <Route path="/select-unit" component={SelectUnit} /> : '' }
+        <Route path="/">
+          {indexRoute}
+          {startRoute}
           <Route path="/aspects" component={ChooseAspects} />
           <Route path="/aspects/(:aspect)" component={AspectResponse} />
           <Route path="/feedback" component={Feedback} />

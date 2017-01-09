@@ -12,8 +12,9 @@ import Loading from './components/loading';
 //Imitating Loading Effect
 setTimeout(() => {
 
+  let url = 'http://35.154.105.198/survey/3NozaAp7Mg6z7BdmLVN';
 
-  fetch('data2.json')
+  fetch(url)
     .then( (res) => { return res.json() } )
     .then( (json) => {
 
@@ -24,7 +25,11 @@ setTimeout(() => {
         aspects_options: [],
         choosen_aspects: [],
         choosen_aspects_options: {},
-        rating: 0
+        rating: 0,
+        selectedUnit: {
+          name: '',
+          survey_id: ''
+        }
       };
 
       data['business_name'] = json['business_name'];
@@ -57,6 +62,10 @@ setTimeout(() => {
         data['question_positive'][aspect_name] = aspect['question_positive'];
         data['question_negative'][aspect_name] = aspect['question_negative'];
       });
+
+      if (!json['is_parent']) {
+        data.selectedUnit.survey_id = url.substr(url.indexOf('survey/')+'survey/'.length);
+      }
 
       store.dispatch(actions.dataLoaded(data));
 

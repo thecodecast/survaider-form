@@ -13,9 +13,9 @@ const End = ({state}) => {
     output['rating'] = state.rating;
     output['response_text'] = state.feedback;
     output['respondent'] = state.contact;
-    output['bad_aspects'] = [];
+    output['disliked_aspects'] = [];
 
-    output['bad_aspects'] = state.choosen_aspects && state.choosen_aspects.map((aspect) => {
+    output['disliked_aspects'] = state.choosen_aspects && state.choosen_aspects.map((aspect) => {
       let newObject = {
         aspect: '',
         selected_options: []
@@ -31,20 +31,20 @@ const End = ({state}) => {
     });
 
     setTimeout(() => {
-      fetch('http://35.154.105.198/survey/JKz3VDg1wgw2kKe7DaL', {
+      fetch(`http://35.154.105.198/survey/${state.selectedUnit.survey_id}`, {
         method: 'POST',
         body: JSON.stringify(output)
       })
       .then(() => {
-        setTimeout(() => {
-          window.location = '/';
-        }, 2000);
+        // setTimeout(() => {
+        //   window.location = '/';
+        // }, 2000);
       })
       .catch((err) => {
-        setTimeout(() => {
-          window.location = '/';
-        }, 2000);
-        console.log(err);
+        // setTimeout(() => {
+        //   window.location = '/';
+        // }, 2000);
+        // console.log(err);
       })
 
 

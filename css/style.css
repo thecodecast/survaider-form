@@ -566,7 +566,7 @@ template {
   -ms-flex: 0 1 100px;
   flex: 0 1 100px;
   padding: 0 4em;
-  margin-top: 2em; }
+  margin-top: 3em; }
 
 .star-svg {
   display: inline-block;
@@ -988,5 +988,34 @@ template {
 .example-leave.example-leave-active {
   opacity: 0;
   visibility: hidden; }
+
+/*---------------------------------------------------*/
+/*---------------------------------------------------*/
+.select-search {
+  min-width: 400px;
+  width: 50%;
+  margin: 0 auto; }
+  .select-search input {
+    display: block;
+    width: 100%;
+    outline: none;
+    border: 2px solid #000;
+    padding: 1.25em;
+    font-size: 18px;
+    font-family: inherit; }
+
+.units-results-list {
+  margin: 0;
+  padding: 0;
+  display: block;
+  list-style: none;
+  width: 100%; }
+  .units-results-list li {
+    font-size: 18px;
+    padding: 1.25em;
+    background-color: #ddd;
+    margin: 10px 0;
+    cursor: pointer;
+    text-align: left; }
 
 /*# sourceMappingURL=style.css.map */
