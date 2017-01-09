@@ -1,8 +1,38 @@
 import React, {Component} from 'react';
-import {Link} from 'react-router';
+import {connect} from 'react-redux';
+
+import * as actionCreators from '../actions';
+import * as selectors from '../selectors';
 
 class Footer extends Component{
+
+  constructor(){
+    super();
+    this.state = {
+      showSpinner: false
+    }
+  }
+
+  navigate(e){
+    e.preventDefault();
+    this.setState({
+      showSpinner: true
+    });
+    setTimeout(() => {
+      this.setState({
+        showSpinner: false
+      });
+      this.props.router.push(this.props.nextLink);
+    }, 1000);
+  }
+
   render(){
+    let spinner = <div className="spinner">
+      <div className="bounce1"></div>
+      <div className="bounce2"></div>
+      <div className="bounce3"></div>
+    </div>;
+
     return (
       <footer className="survaider-home-footer clearfix">
 
@@ -26,8 +56,9 @@ class Footer extends Component{
           </div>}
 
 
-        <div className="form-action next-action pull-right">
-          <Link to={this.props.nextLink} className="hollow-button">Next</Link>
+        <div onClick={this.navigate.bind(this)} className="form-action pull-right">
+          <button className="next-action hollow-button">Next</button>
+          {this.state.showSpinner ? spinner : ''}
         </div>
 
       </footer>
@@ -35,4 +66,11 @@ class Footer extends Component{
   }
 }
 
-export default Footer;
+const mapStateToProps = (state, props) => {
+  return {
+    props,
+    nextLink: state.nextLink
+  }
+};
+
+export default connect(mapStateToProps, actionCreators)(Footer);

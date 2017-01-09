@@ -9,49 +9,58 @@ import TitleView from './titleView';
 import Feedback from './feedback';
 import StarView from './star';
 
-const Start = ({rating, questionRated, threshold, props}) => {
+class Start extends Component {
 
-  let numberOfStars = 5;
-  let starViews = [];
-  let onStarClick = (index) => {
-    questionRated(index+1);
+
+  constructor(){
+    super();
+
+    this.state = {
+      numberOfStars: 5
+    }
+  }
+
+  componentWillReceiveProps(nextProps){
+    let {rating, setNextLink, threshold} = nextProps;
+    if (rating === 0) var nextLink = '';
+    else{
+      if (rating > threshold) nextLink = '/feedback';
+      else nextLink = '/aspects';
+    }
+
+    if (rating > 0) {}
+    setNextLink(nextLink);
+  }
+
+  onStarClick(index){
+    this.props.questionRated(index+1);
   };
 
-  for (var i = 0; i < numberOfStars; i++) {
-    if (i < rating) {
-      starViews.push(<StarView onClick={onStarClick.bind(this)} value={i} key={i} fill={true} />);
+  render(){
+    let starViews = [];
+    for (var i = 0; i < this.state.numberOfStars; i++) {
+      if (i < this.props.rating) {
+        starViews.push(<StarView onClick={this.onStarClick.bind(this)} value={i} key={i} fill={true} />);
+      }
+      else{
+        starViews.push(<StarView onClick={this.onStarClick.bind(this)} value={i} key={i} fill={false} />);
+      }
     }
-    else{
-      starViews.push(<StarView onClick={onStarClick.bind(this)} value={i} key={i} fill={false} />);
-    }
-  }
 
 
-
-  if (rating === 0) var nextLink = '';
-  else{
-    if (rating > threshold) nextLink = '/feedback';
-    else nextLink = '/aspects';
-  }
-
-  if (rating > 0) {
-
-  }
-
-  return (
-
-    <section className="survaider-home-main">
-      <div className="main-form">
-        <TitleView title="How likely are you to recommend this experience to your friends?" />
-        <div className="response-view rating-response">
-          <div className="stars-group">
-            {starViews}
+    return (
+      <section className="survaider-home-main">
+        <div className="main-form">
+          <TitleView title="How likely are you to recommend this experience to your friends?" />
+          <div className="response-view rating-response">
+            <div className="stars-group">
+              {starViews}
+            </div>
           </div>
         </div>
-      </div>
-      <Footer nextLink={nextLink} />
-    </section>
-  );
+      </section>
+    );
+  }
 }
 
 const mapStateToProps = (state, props) => {

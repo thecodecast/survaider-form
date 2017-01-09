@@ -11,7 +11,8 @@ let initialState = {
   selectedUnit: {
     unit_name: '',
     survey_id: ''
-  }
+  },
+  nextLink: ''
 };
 
 // let cachedState = window.localStorage.getItem('state');
@@ -28,6 +29,9 @@ let initialState = {
 
 export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
+    case 'app/setNextLink':
+      return merge(state, { nextLink: payload.nextLink })
+      break;
     case 'app/dataLoaded':
       return payload.data;
       break;

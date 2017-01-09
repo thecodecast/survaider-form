@@ -6,55 +6,80 @@ import * as selectors from '../selectors';
 
 import Footer from './footer';
 
-const Contact = ({contact = {}, props, onContactNameChange, onContactEmailChange, onContactMobileChange}) => {
+class Contact extends Component{
 
-  let nextLink = '/thank-you';
+  constructor(){
+    super();
 
-  let onNameChange = (e) => {
-    onContactNameChange(e.target.value);
+    this.state = {
+      name: '',
+      email: '',
+      mobile: ''
+    }
   }
 
-  let onEmailChange = (e) => {
-    onContactEmailChange(e.target.value);
+  componentDidMount(){
+    let nextLink = '/thank-you';
+    this.props.setNextLink(nextLink);
+
+    this.setState({
+      name: this.props.contact.name,
+      email: this.props.contact.email,
+      mobile: this.props.contact.mobile
+    });
   }
 
-  let onMobileChange = (e) => {
-    onContactMobileChange(e.target.value);
+  onNameChange(e){
+    this.setState({
+      name: e.target.value
+    });
+    this.props.onContactNameChange(e.target.value);
   }
 
-  return (
-    <section className="survaider-home-main">
+  onEmailChange(e){
+    this.setState({
+      email: e.target.value
+    });
+    this.props.onContactEmailChange(e.target.value);
+  }
 
-      <div className="main-form">
+  onMobileChange(e){
+    this.setState({
+      mobile: e.target.value
+    });
+    this.props.onContactMobileChange(e.target.value);
+  }
 
-        <div className="contact-form">
-          <div className="form-field">
-            <input value={contact.name} onChange={onNameChange} type="text" name="name" id="name" placeholder="Name:" required="required" />
-            <label htmlFor="name">Name:</label>
-          </div>
-          <div className="form-field">
-            <input value={contact.email} onChange={onEmailChange} type="email" name="email" id="email" placeholder="Email:" required="required" />
-            <label htmlFor="email">Email:</label>
-          </div>
-          <div className="form-field">
-            <input value={contact.mobile} onChange={onMobileChange} type="text" name="mobile" id="mobile" placeholder="Phone:" required="required" />
-            <label htmlFor="mobile">Mobile:</label>
+  render(){
+    return (
+      <section className="survaider-home-main">
+        <div className="main-form">
+          <div className="contact-form">
+            <div className="form-field">
+              <input value={this.state.name} onChange={this.onNameChange.bind(this)} type="text" name="name" id="name" placeholder="Name:" required="required" />
+              <label htmlFor="name">Name:</label>
+            </div>
+            <div className="form-field">
+              <input value={this.state.email} onChange={this.onEmailChange.bind(this)} type="email" name="email" id="email" placeholder="Email:" required="required" />
+              <label htmlFor="email">Email:</label>
+            </div>
+            <div className="form-field">
+              <input value={this.state.mobile} onChange={this.onMobileChange.bind(this)} type="text" name="mobile" id="mobile" placeholder="Phone:" required="required" />
+              <label htmlFor="mobile">Mobile:</label>
+            </div>
           </div>
         </div>
+      </section>
+    );
+  }
 
-
-      </div>
-      <Footer nextLink={nextLink} />
-
-    </section>
-  );
 }
 
 
 const mapStateToProps = (state, props) => {
   return {
     props,
-    contact: state.contact
+    contact: state.contact || {name:'', email:'', mobile: ''}
   }
 };
 

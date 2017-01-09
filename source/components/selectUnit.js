@@ -42,6 +42,7 @@ class SelectUnit extends Component {
   }
 
   componentDidMount(){
+    this.props.setNextLink('/rate');
     this.setState({
       units: this.props.units,
       selectedUnitName: this.props.selectedUnit.unit_name
@@ -51,7 +52,6 @@ class SelectUnit extends Component {
 
   render(){
     let unitResults = this.state.units.map((unit, idx) => <li key={unit.survey_id} onClick={this.selectUnit.bind(this, unit.unit_name, unit.survey_id)}>{unit.unit_name}</li>);
-    let nextLink = '/rate';
 
     return (
       <section className="survaider-home-main">
@@ -64,7 +64,6 @@ class SelectUnit extends Component {
             </ul>
           </div>
         </div>
-        <Footer nextLink={nextLink} />
       </section>
     );
   }

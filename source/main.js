@@ -27,7 +27,7 @@ setTimeout(() => {
         choosen_aspects_options: {},
         rating: 0,
         selectedUnit: {
-          name: '',
+          unit_name: '',
           survey_id: ''
         }
       };

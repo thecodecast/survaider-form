@@ -8,32 +8,47 @@ import * as selectors from '../selectors';
 import Footer from './footer';
 import TitleView from './titleView';
 
-const Feedback = ({props, giveFeedback, feedback}) => {
+class Feedback extends Component{
 
-  let nextLink = '/contact';
+  constructor(){
+    super();
 
-  let onChange = (e) => {
-    giveFeedback(e.target.value);
+    this.state = {
+      feedback: ''
+    }
   }
 
-  return (
-    <section className="survaider-home-main">
+  componentDidMount(){
+    let nextLink = '/contact';
+    this.props.setNextLink(nextLink);
 
-      <div className="main-form">
+    this.setState({
+      feedback: this.props.feedback
+    });
+  }
 
-        <TitleView title="Thank you! Also, please let me know how we can improve." />
+  onChange(e){
+    this.setState({
+      feedback: e.target.value
+    });
+    this.props.giveFeedback(e.target.value);
+  }
 
-        <div className="response-view feedback-response">
-          <div className="feedback-textarea">
-            <textarea onChange={onChange} value={feedback} name="feedback" rows="10" cols="80" placeholder="Your thoughts here..."></textarea>
+  render(){
+    return (
+      <section className="survaider-home-main">
+        <div className="main-form">
+          <TitleView title="Thank you! Also, please let me know how we can improve." />
+          <div className="response-view feedback-response">
+            <div className="feedback-textarea">
+              <textarea onChange={this.onChange.bind(this)} value={this.state.feedback} name="feedback" rows="10" cols="80" placeholder="Your thoughts here..."></textarea>
+            </div>
           </div>
         </div>
+      </section>
+    );
+  }
 
-      </div>
-
-      <Footer nextLink={nextLink} />
-    </section>
-  );
 }
 
 

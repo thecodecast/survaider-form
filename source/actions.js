@@ -8,6 +8,15 @@
 //7. User give contact details
 
 
+export const setNextLink = (nextLink = '') => {
+  return {
+    type: 'app/setNextLink',
+    payload: {
+      nextLink
+    }
+  }
+};
+
 export const dataLoaded = (data) => {
   return {
     type: 'app/dataLoaded',

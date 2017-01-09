@@ -10,52 +10,57 @@ import TitleView from './titleView';
 import OptionView from './optionView';
 import Footer from './footer';
 
-const AspectResponse = ({options, positiveTitle, negativeTitle, choosen_aspects, props, choosen_aspect_options, selectAspectOption}) => {
+class AspectResponse extends Component{
+  constructor(){
+    super();
+  }
 
-  let optionsViews = options.map((title, index) => {
-    if (choosen_aspect_options && indexOf(index, choosen_aspect_options) !== -1) {
-      return <OptionView checked={true} onClick={selectAspectOption.bind(this, props.params.aspect, index)} index={index} key={index} title={title} />
+  componentWillReceiveProps(nextProps){
+    let indexOfThis = indexOf(this.props.params.aspect, nextProps.choosen_aspects);
+    let nextLink = '';
+    if (indexOfThis+1 === nextProps.choosen_aspects.length) {
+      nextLink = '/feedback';
     }
     else{
-      return <OptionView checked={false} onClick={selectAspectOption.bind(this, props.params.aspect, index)} index={index} key={index} title={title} />
+      nextLink = `/aspects/${nextProps.choosen_aspects[indexOfThis+1]}`
     }
-  });
-
-  let indexOfThis = indexOf(props.params.aspect, choosen_aspects);
-  let nextLink = '';
-  if (indexOfThis+1 === choosen_aspects.length) {
-    nextLink = '/feedback';
-  }
-  else{
-    nextLink = `/aspects/${choosen_aspects[indexOfThis+1]}`
+    nextProps.setNextLink(nextLink);
   }
 
-  return (
-    <section className="survaider-home-main">
+  render(){
 
-      <div className="main-form">
+    let optionsViews = this.props.options.map((title, index) => {
+      if (this.props.choosen_aspect_options && indexOf(index, this.props.choosen_aspect_options) !== -1) {
+        return <OptionView checked={true} onClick={this.props.selectAspectOption.bind(this, this.props.params.aspect, index)} index={index} key={index} title={title} />
+      }
+      else{
+        return <OptionView checked={false} onClick={this.props.selectAspectOption.bind(this, this.props.params.aspect, index)} index={index} key={index} title={title} />
+      }
+    });
 
-        <TitleView title={positiveTitle} />
 
-        <div className="response-view">
-          <div className="sub-question-view">
-            <h2>{negativeTitle}</h2>
-            { /*<div className="option-hollow">
-              <span>{props.params.aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ')}</span>
-            </div> */}
-            <div className="sub-response-view">
-              <div className="radio-options-group">
-                {optionsViews}
+    return (
+      <section className="survaider-home-main">
+        <div className="main-form">
+          <TitleView title={this.props.positiveTitle} />
+          <div className="response-view">
+            <div className="sub-question-view">
+              <h2>{this.props.negativeTitle}</h2>
+              { /*<div className="option-hollow">
+                <span>{props.params.aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ')}</span>
+              </div> */}
+              <div className="sub-response-view">
+                <div className="radio-options-group">
+                  {optionsViews}
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
+    );
+  }
 
-      </div>
-
-      <Footer nextLink={nextLink} />
-    </section>
-  );
 }
 
 const mapStateToProps = (state, props) => {

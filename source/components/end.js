@@ -47,6 +47,7 @@ const End = ({state}) => {
         setTimeout(() => {
           window.location = '/';
         }, 5000);
+        console.log(output);
         console.log(err);
       })
 
@@ -58,9 +59,7 @@ const End = ({state}) => {
 
   return (
     <section className="end-slide">
-
       <div className="main-form">
-
         <div className="question-view">
           <h1>
             Thanks a lot for your feedback.
@@ -69,11 +68,9 @@ const End = ({state}) => {
             Please visit <b>Sterling Holidays</b> again!
           </h1>
         </div>
-
         <pre>
           {generatedOutput()}
         </pre>
-
       </div>
     </section>
   );

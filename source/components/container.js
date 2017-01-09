@@ -10,6 +10,7 @@ import Contact from './contact';
 import Start from './start';
 import SelectUnit from './selectUnit';
 import End from './end';
+import Footer from './footer';
 import NotFound from './404';
 
 const Container = ({isParent}) => {
@@ -21,6 +22,8 @@ const Container = ({isParent}) => {
     indexRoute = <IndexRoute component={SelectUnit} />;
     startRoute = <Route path="/rate" component={Start} />;
   }
+
+  window.bh = browserHistory;
 
   return (
     <div className="survaider-home">
@@ -37,6 +40,7 @@ const Container = ({isParent}) => {
           <Route path="*" component={NotFound} />
         </Route>
       </Router>
+      <Footer router={browserHistory} />
     </div>
   );
 }

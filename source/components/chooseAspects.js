@@ -10,49 +10,46 @@ import TitleView from './titleView';
 import AspectView from './aspectView';
 import Footer from './footer';
 
+class ChooseAspects extends Component{
 
-
-
-const ChooseAspects = ({ aspects, choosen_aspects, choseAspect }) => {
-
-
-  let previous_aspects = choosen_aspects.map((s) => { return s.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ') });
-
-  let aspectViews = aspects.map((name, index) => {
-
-    
-    if (indexOf(name, previous_aspects) !== -1) {
-      return <AspectView checked={true} onClick={choseAspect.bind(this)} name={name} key={index} index={index} />;
-    }
-    else{
-      return <AspectView checked={false} onClick={choseAspect.bind(this)} name={name} key={index} index={index} />;
-    }
-  });
-
-  let nextLink = '';
-  if (choosen_aspects.length > 0) {
-    nextLink = `/aspects/${choosen_aspects[0]}`;
+  constructor(){
+    super();
   }
 
-  return (
-    <section className="survaider-home-main">
+  componentWillReceiveProps(nextProps){
+    let nextLink = '';
+    if (nextProps.choosen_aspects.length > 0) {
+      nextLink = `/aspects/${nextProps.choosen_aspects[0]}`;
+    }
+    nextProps.setNextLink(nextLink);
+  }
 
-      <div className="main-form">
+  render(){
 
-        <TitleView title="I am so sorry to hear that what went wrong?" />
+    let previous_aspects = this.props.choosen_aspects.map((s) => { return s.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ') });
+    let aspectViews = this.props.aspects.map((name, index) => {
+      if (indexOf(name, previous_aspects) !== -1) {
+        return <AspectView checked={true} onClick={this.props.choseAspect.bind(this)} name={name} key={index} index={index} />;
+      }
+      else{
+        return <AspectView checked={false} onClick={this.props.choseAspect.bind(this)} name={name} key={index} index={index} />;
+      }
+    });
 
-        <div className="response-view options-response">
-          <div className="options-group">
-            {aspectViews}
+    return (
+      <section className="survaider-home-main">
+        <div className="main-form">
+          <TitleView title="I am so sorry to hear that what went wrong?" />
+          <div className="response-view options-response">
+            <div className="options-group">
+              {aspectViews}
+            </div>
           </div>
         </div>
+      </section>
+    );
+  }
 
-      </div>
-
-      <Footer nextLink={nextLink} />
-
-    </section>
-  );
 }
 
 const mapStateToProps = (state) => {
