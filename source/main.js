@@ -12,7 +12,7 @@ import Loading from './components/loading';
 //Imitating Loading Effect
 setTimeout(() => {
 
-  let url = 'http://35.154.105.198/survey/3NozaAp7Mg6z7BdmLVN';
+  let url = 'http://35.154.105.198/survey/zdMYvl8onJWYo39bzLk';
 
   fetch(url)
     .then( (res) => { return res.json() } )

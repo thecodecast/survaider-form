@@ -33,18 +33,21 @@ const End = ({state}) => {
     setTimeout(() => {
       fetch(`http://35.154.105.198/survey/${state.selectedUnit.survey_id}`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(output)
       })
       .then(() => {
-        // setTimeout(() => {
-        //   window.location = '/';
-        // }, 2000);
+        setTimeout(() => {
+          window.location = '/';
+        }, 5000);
       })
       .catch((err) => {
-        // setTimeout(() => {
-        //   window.location = '/';
-        // }, 2000);
-        // console.log(err);
+        setTimeout(() => {
+          window.location = '/';
+        }, 5000);
+        console.log(err);
       })
 
 
