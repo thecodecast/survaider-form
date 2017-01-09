@@ -77,7 +77,7 @@
 	//Imitating Loading Effect
 	setTimeout(function () {
 
-	  var url = 'http://35.154.105.198/survey/3NozaAp7Mg6z7BdmLVN';
+	  var url = 'http://35.154.105.198/survey/zdMYvl8onJWYo39bzLk';
 
 	  fetch(url).then(function (res) {
 	    return res.json();
@@ -41505,16 +41505,19 @@
 	    setTimeout(function () {
 	      fetch('http://35.154.105.198/survey/' + state.selectedUnit.survey_id, {
 	        method: 'POST',
+	        headers: {
+	          'Content-Type': 'application/json'
+	        },
 	        body: JSON.stringify(output)
 	      }).then(function () {
-	        // setTimeout(() => {
-	        //   window.location = '/';
-	        // }, 2000);
+	        setTimeout(function () {
+	          window.location = '/';
+	        }, 5000);
 	      }).catch(function (err) {
-	        // setTimeout(() => {
-	        //   window.location = '/';
-	        // }, 2000);
-	        // console.log(err);
+	        setTimeout(function () {
+	          window.location = '/';
+	        }, 5000);
+	        console.log(err);
 	      });
 	    }, 10);
 	  };
