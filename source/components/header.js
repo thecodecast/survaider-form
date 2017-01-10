@@ -6,7 +6,7 @@ class Header extends Component{
       <header className="survaider-home-header clearfix">
 
         <a href="/" className="logo pull-left">
-          <img src="imgs/logo.png" alt="Survaider" />
+          <img src="imgs/icon.png" alt="Survaider" />
         </a>
 
         <div className="header-info pull-right">

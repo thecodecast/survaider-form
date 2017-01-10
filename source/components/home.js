@@ -10,19 +10,22 @@ import TitleView from './titleView';
 import Feedback from './feedback';
 import StarView from './star';
 
-const Home = (props) => {
+class Home extends Component{
 
-  return (
-    <ReactCSSTransitionGroup
-      transitionName="example"
-      transitionEnterTimeout={500}
-      transitionLeaveTimeout={500}>
+  constructor(){
+    super();
+  }
 
-      {React.cloneElement(props.children, {
-        key: location.pathname
-      })}
-    </ReactCSSTransitionGroup>
-  );
+  render(){
+    return (
+      <div className="survaider-home-main-wrapper">
+        {React.cloneElement(this.props.children, {
+          key: location.pathname
+        })}
+      </div>
+    );
+  }
+
 }
 
 export default Home;

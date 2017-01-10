@@ -33452,7 +33452,7 @@
 	      { history: _reactRouter.browserHistory },
 	      _react2.default.createElement(
 	        _reactRouter.Route,
-	        { path: '/' },
+	        { path: '/', component: _home2.default },
 	        indexRoute,
 	        startRoute,
 	        _react2.default.createElement(_reactRouter.Route, { path: '/aspects', component: _chooseAspects2.default }),
@@ -38302,7 +38302,7 @@
 	        _react2.default.createElement(
 	          "a",
 	          { href: "/", className: "logo pull-left" },
-	          _react2.default.createElement("img", { src: "imgs/logo.png", alt: "Survaider" })
+	          _react2.default.createElement("img", { src: "imgs/icon.png", alt: "Survaider" })
 	        ),
 	        _react2.default.createElement(
 	          "div",
@@ -38331,6 +38331,8 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	var _react = __webpack_require__(1);
 
@@ -38368,19 +38370,36 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Home = function Home(props) {
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	  return _react2.default.createElement(
-	    _reactAddonsCssTransitionGroup2.default,
-	    {
-	      transitionName: 'example',
-	      transitionEnterTimeout: 500,
-	      transitionLeaveTimeout: 500 },
-	    _react2.default.cloneElement(props.children, {
-	      key: location.pathname
-	    })
-	  );
-	};
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Home = function (_Component) {
+	  _inherits(Home, _Component);
+
+	  function Home() {
+	    _classCallCheck(this, Home);
+
+	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this));
+	  }
+
+	  _createClass(Home, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'survaider-home-main-wrapper' },
+	        _react2.default.cloneElement(this.props.children, {
+	          key: location.pathname
+	        })
+	      );
+	    }
+	  }]);
+
+	  return Home;
+	}(_react.Component);
 
 	exports.default = Home;
 
@@ -40836,7 +40855,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'feedback-textarea' },
-	              _react2.default.createElement('textarea', { onChange: this.onChange.bind(this), value: this.state.feedback, name: 'feedback', rows: '10', cols: '80', placeholder: 'Your thoughts here...' })
+	              _react2.default.createElement('textarea', { onChange: this.onChange.bind(this), value: this.state.feedback, name: 'feedback', placeholder: 'Your thoughts here...' })
 	            )
 	          )
 	        )
@@ -41619,7 +41638,6 @@
 	          unit.unit_name
 	        );
 	      });
-
 	      return _react2.default.createElement(
 	        'section',
 	        { className: 'survaider-home-main' },

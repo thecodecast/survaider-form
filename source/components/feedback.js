@@ -41,7 +41,7 @@ class Feedback extends Component{
           <TitleView title="Thank you! Also, please let me know how we can improve." />
           <div className="response-view feedback-response">
             <div className="feedback-textarea">
-              <textarea onChange={this.onChange.bind(this)} value={this.state.feedback} name="feedback" rows="10" cols="80" placeholder="Your thoughts here..."></textarea>
+              <textarea onChange={this.onChange.bind(this)} value={this.state.feedback} name="feedback" placeholder="Your thoughts here..."></textarea>
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ const Container = ({isParent}) => {
     <div className="survaider-home">
       <Header />
       <Router history={browserHistory}>
-        <Route path="/">
+        <Route path="/" component={Home}>
           {indexRoute}
           {startRoute}
           <Route path="/aspects" component={ChooseAspects} />

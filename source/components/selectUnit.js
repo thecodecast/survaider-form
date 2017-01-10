@@ -52,7 +52,6 @@ class SelectUnit extends Component {
 
   render(){
     let unitResults = this.state.units.map((unit, idx) => <li key={unit.survey_id} onClick={this.selectUnit.bind(this, unit.unit_name, unit.survey_id)}>{unit.unit_name}</li>);
-
     return (
       <section className="survaider-home-main">
         <div className="main-form">
