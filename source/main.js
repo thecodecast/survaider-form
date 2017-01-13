@@ -14,7 +14,7 @@ setTimeout(() => {
 
   let url = 'http://35.154.105.198/survey/zdMYvl8onJWYo39bzLk';
 
-  fetch(url)
+  fetch('data2.json')
     .then( (res) => { return res.json() } )
     .then( (json) => {
 
@@ -34,8 +34,9 @@ setTimeout(() => {
         contact: {
           name: '',
           email: '',
-          mobile: ''
-        }
+          phone: ''
+        },
+        displayFooter: true
       };
 
       data['business_name'] = json['business_name'];
@@ -43,6 +44,8 @@ setTimeout(() => {
       data['feedback_title'] = json['aspect_question_positive'];
       data['choose_aspect_title'] = json['aspect_question_negative'];
       data['rating_threshold'] = json['rating_threshold'];
+      data['aspect_question_positive'] = json['aspect_question_positive'];
+      data['aspect_question_negative'] = json['aspect_question_negative'];
 
 
 

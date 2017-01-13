@@ -38,6 +38,18 @@ export const deactivateFooter = () => {
   }
 };
 
+export const removeFooter = () => {
+  return {
+    type: 'app/removeFooter'
+  }
+};
+
+export const showFooter = () => {
+  return {
+    type: 'app/showFooter'
+  }
+};
+
 export const questionRated = (rating = 0) => {
   return {
     type: 'app/questionRated',
@@ -102,11 +114,11 @@ export const onContactEmailChange = (email = '') => {
   }
 };
 
-export const onContactMobileChange = (mobile = '') => {
+export const onContactPhoneChange = (phone = '') => {
   return {
-    type: 'app/onContactMobileChange',
+    type: 'app/onContactPhoneChange',
     payload: {
-      mobile
+      phone
     }
   }
 };

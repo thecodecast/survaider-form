@@ -1,15 +1,15 @@
 {
-    "is_parent": false,
+    "is_parent": true,
     "units_question": "Which hotel did you visit?",
     "units_placeholder_text": "Enter hotel name here",
     "units": [
-        {"name": "Kamla Nagar", "survey_id": "aZ3mDpQw67A8L5KXyMQ"},
-        {"name": "Tilak Nagar", "survey_id": "eprJWMVJmzlgeZZkmzX"},
-        {"name": "Hudson Lane", "survey_id": "goZJO7VJKxB5grrkKx9"}
+        {"unit_name": "Kamla Nagar", "survey_id": "aZ3mDpQw67A8L5KXyMQ"},
+        {"unit_name": "Tilak Nagar", "survey_id": "eprJWMVJmzlgeZZkmzX"},
+        {"unit_name": "Hudson Lane", "survey_id": "goZJO7VJKxB5grrkKx9"}
     ],
     "business_name": "Sterling Hotels",
     "logo_link": "https://s3.ap-south-1.amazonaws.com/survaider-static-files/logos/sterling_medium.png",
-    "rating_threshold": 3,
+    "rating_threshold": 4,
     "aspect_question_positive": "Thank you! Also, please let us know what can we improve.",
     "aspect_question_negative": "We are sorry to hear that! What went wrong?",
     "aspect_options": [

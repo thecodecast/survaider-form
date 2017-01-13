@@ -19,6 +19,11 @@ class SelectUnit extends Component {
     }
   }
 
+
+  componentWillMount() {
+    this.props.showFooter();
+  }
+
   filterResults(e){
     this.props.deactivateFooter();
     if (!this.state.showResults) {

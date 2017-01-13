@@ -18,6 +18,12 @@ class Feedback extends Component{
     }
   }
 
+
+  componentWillMount() {
+    this.props.showFooter();
+    this.props.deactivateFooter();
+  }
+
   componentDidMount(){
     let nextLink = '/contact';
     this.props.setNextLink(nextLink);
@@ -47,7 +53,7 @@ class Feedback extends Component{
     return (
       <section className="survaider-home-main">
         <div className="main-form">
-          <TitleView title="Thank you! Also, please let me know how we can improve." />
+          <TitleView title={this.props.title} />
           <div className="response-view feedback-response">
             <div className="feedback-textarea">
               <textarea onChange={this.onChange.bind(this)} value={this.state.feedback} name="feedback" placeholder="Your thoughts here..."></textarea>
@@ -64,7 +70,8 @@ class Feedback extends Component{
 const mapStateToProps = (state, props) => {
   return {
     props,
-    feedback: state.feedback
+    feedback: state.feedback,
+    title: state.aspect_question_positive
   }
 };
 

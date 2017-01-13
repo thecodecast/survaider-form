@@ -20,6 +20,10 @@ class Start extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.removeFooter();
+  }
+
   componentWillReceiveProps(nextProps){
     let {rating, setNextLink, threshold} = nextProps;
     if (rating === 0) var nextLink = '';

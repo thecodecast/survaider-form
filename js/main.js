@@ -79,7 +79,7 @@
 
 	  var url = 'http://35.154.105.198/survey/zdMYvl8onJWYo39bzLk';
 
-	  fetch(url).then(function (res) {
+	  fetch('data2.json').then(function (res) {
 	    return res.json();
 	  }).then(function (json) {
 
@@ -99,8 +99,9 @@
 	      contact: {
 	        name: '',
 	        email: '',
-	        mobile: ''
-	      }
+	        phone: ''
+	      },
+	      displayFooter: true
 	    };
 
 	    data['business_name'] = json['business_name'];
@@ -108,6 +109,8 @@
 	    data['feedback_title'] = json['aspect_question_positive'];
 	    data['choose_aspect_title'] = json['aspect_question_negative'];
 	    data['rating_threshold'] = json['rating_threshold'];
+	    data['aspect_question_positive'] = json['aspect_question_positive'];
+	    data['aspect_question_negative'] = json['aspect_question_negative'];
 
 	    data['aspects_names'] = json['aspect_options'].map(function (aspect) {
 	      var name = aspect.aspect;
@@ -24343,6 +24346,12 @@
 	    case 'app/deactivateFooter':
 	      return (0, _ramda.merge)(state, { isFooterActive: false });
 	      break;
+	    case 'app/removeFooter':
+	      return (0, _ramda.merge)(state, { displayFooter: false });
+	      break;
+	    case 'app/showFooter':
+	      return (0, _ramda.merge)(state, { displayFooter: true });
+	      break;
 	    case 'app/dataLoaded':
 	      return payload.data;
 	      break;
@@ -24383,8 +24392,8 @@
 	    case 'app/onContactEmailChange':
 	      return (0, _ramda.merge)(state, { contact: (0, _ramda.merge)(state.contact, { email: payload.email }) });
 	      break;
-	    case 'app/onContactMobileChange':
-	      return (0, _ramda.merge)(state, { contact: (0, _ramda.merge)(state.contact, { mobile: payload.mobile }) });
+	    case 'app/onContactPhoneChange':
+	      return (0, _ramda.merge)(state, { contact: (0, _ramda.merge)(state.contact, { phone: payload.phone }) });
 	      break;
 	    default:
 	      return state;
@@ -33279,6 +33288,18 @@
 	  };
 	};
 
+	var removeFooter = exports.removeFooter = function removeFooter() {
+	  return {
+	    type: 'app/removeFooter'
+	  };
+	};
+
+	var showFooter = exports.showFooter = function showFooter() {
+	  return {
+	    type: 'app/showFooter'
+	  };
+	};
+
 	var questionRated = exports.questionRated = function questionRated() {
 	  var rating = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -33353,13 +33374,13 @@
 	  };
 	};
 
-	var onContactMobileChange = exports.onContactMobileChange = function onContactMobileChange() {
-	  var mobile = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	var onContactPhoneChange = exports.onContactPhoneChange = function onContactPhoneChange() {
+	  var phone = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 
 	  return {
-	    type: 'app/onContactMobileChange',
+	    type: 'app/onContactPhoneChange',
 	    payload: {
-	      mobile: mobile
+	      phone: phone
 	    }
 	  };
 	};
@@ -33460,7 +33481,6 @@
 
 	  var indexRoute = _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default });
 	  var startRoute = '';
-	  var footer = _react2.default.createElement(_footer2.default, { router: _reactRouter.browserHistory });
 
 	  if (isParent) {
 	    indexRoute = _react2.default.createElement(_reactRouter.IndexRoute, { component: _selectUnit2.default });
@@ -33468,10 +33488,6 @@
 	  }
 
 	  window.bh = _reactRouter.browserHistory;
-
-	  if (_reactRouter.browserHistory.getCurrentLocation().pathname === "/thank-you") {
-	    footer = '';
-	  }
 
 	  return _react2.default.createElement(
 	    'div',
@@ -33493,7 +33509,7 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
 	      )
 	    ),
-	    footer
+	    _react2.default.createElement(_footer2.default, { router: _reactRouter.browserHistory })
 	  );
 	};
 
@@ -40672,7 +40688,6 @@
 	          showSpinner: false
 	        });
 	        _this2.props.router.push(_this2.props.nextLink);
-	        _this2.props.deactivateFooter();
 	      }, 1000);
 	    }
 	  }, {
@@ -40685,6 +40700,10 @@
 	        _react2.default.createElement('div', { className: 'bounce2' }),
 	        _react2.default.createElement('div', { className: 'bounce3' })
 	      );
+
+	      if (!this.props.displayFooter) {
+	        return null;
+	      }
 
 	      return _react2.default.createElement(
 	        'footer',
@@ -40710,7 +40729,8 @@
 	  return {
 	    props: props,
 	    isFooterActive: state.isFooterActive,
-	    nextLink: state.nextLink
+	    nextLink: state.nextLink,
+	    displayFooter: state.displayFooter
 	  };
 	};
 
@@ -40828,6 +40848,12 @@
 	  }
 
 	  _createClass(Feedback, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.showFooter();
+	      this.props.deactivateFooter();
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var nextLink = '/contact';
@@ -40864,7 +40890,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'main-form' },
-	          _react2.default.createElement(_titleView2.default, { title: 'Thank you! Also, please let me know how we can improve.' }),
+	          _react2.default.createElement(_titleView2.default, { title: this.props.title }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'response-view feedback-response' },
@@ -40885,7 +40911,8 @@
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
 	    props: props,
-	    feedback: state.feedback
+	    feedback: state.feedback,
+	    title: state.aspect_question_positive
 	  };
 	};
 
@@ -40997,6 +41024,12 @@
 	  }
 
 	  _createClass(ChooseAspects, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.showFooter();
+	      this.props.deactivateFooter();
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      if (nextProps.choosen_aspects.length !== 0) {
@@ -41034,7 +41067,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'main-form' },
-	          _react2.default.createElement(_titleView2.default, { title: 'I am so sorry to hear that what went wrong?' }),
+	          _react2.default.createElement(_titleView2.default, { title: this.props.title }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'response-view options-response' },
@@ -41055,7 +41088,8 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    aspects: selectors.getAspects(state),
-	    choosen_aspects: selectors.getChoosenAspects(state)
+	    choosen_aspects: selectors.getChoosenAspects(state),
+	    title: state.aspect_question_negative
 	  };
 	};
 
@@ -41164,6 +41198,12 @@
 	  }
 
 	  _createClass(AspectResponse, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.showFooter();
+	      this.props.deactivateFooter();
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      if (this.props.rating > 3) {
@@ -41220,22 +41260,6 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'sub-question-view' },
-	              _react2.default.createElement(
-	                'h2',
-	                null,
-	                'What did you not like about?'
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'option-hollow' },
-	                _react2.default.createElement(
-	                  'span',
-	                  null,
-	                  this.props.params.aspect.split('-').map(function (s) {
-	                    return s.charAt(0).toUpperCase() + s.slice(1);
-	                  }).join(' ')
-	                )
-	              ),
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'sub-response-view' },
@@ -41356,12 +41380,18 @@
 	    _this.state = {
 	      name: '',
 	      email: '',
-	      mobile: ''
+	      phone: ''
 	    };
 	    return _this;
 	  }
 
 	  _createClass(Contact, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.showFooter();
+	      this.props.activateFooter();
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var nextLink = '/thank-you';
@@ -41370,15 +41400,15 @@
 	      this.setState({
 	        name: this.props.contact.name,
 	        email: this.props.contact.email,
-	        mobile: this.props.contact.mobile
+	        phone: this.props.contact.phone
 	      });
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
-	      if (nextProps.contact.name.length > 0 && nextProps.contact.email.length > 0 && nextProps.contact.mobile.length > 0) {
-	        this.props.activateFooter();
-	      }
+	      // if (nextProps.contact.name.length > 0 && nextProps.contact.email.length > 0 && nextProps.contact.phone.length > 0) {
+	      //   this.props.activateFooter();
+	      // }
 	    }
 	  }, {
 	    key: 'onNameChange',
@@ -41387,9 +41417,9 @@
 	        name: e.target.value
 	      });
 	      this.props.onContactNameChange(e.target.value);
-	      if (e.target.value.length === 0) {
-	        this.props.deactivateFooter();
-	      }
+	      // if (e.target.value.length === 0) {
+	      //   this.props.deactivateFooter();
+	      // }
 	    }
 	  }, {
 	    key: 'onEmailChange',
@@ -41398,20 +41428,20 @@
 	        email: e.target.value
 	      });
 	      this.props.onContactEmailChange(e.target.value);
-	      if (e.target.value.length === 0) {
-	        this.props.deactivateFooter();
-	      }
+	      // if (e.target.value.length === 0) {
+	      //   this.props.deactivateFooter();
+	      // }
 	    }
 	  }, {
-	    key: 'onMobileChange',
-	    value: function onMobileChange(e) {
+	    key: 'onPhoneChange',
+	    value: function onPhoneChange(e) {
 	      this.setState({
-	        mobile: e.target.value
+	        phone: e.target.value
 	      });
-	      this.props.onContactMobileChange(e.target.value);
-	      if (e.target.value.length === 0) {
-	        this.props.deactivateFooter();
-	      }
+	      this.props.onContactPhoneChange(e.target.value);
+	      // if (e.target.value.length === 0) {
+	      //   this.props.deactivateFooter();
+	      // }
 	    }
 	  }, {
 	    key: 'render',
@@ -41428,7 +41458,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'form-field' },
-	              _react2.default.createElement('input', { value: this.state.name, onChange: this.onNameChange.bind(this), type: 'text', name: 'name', id: 'name', placeholder: 'Name:', required: 'required' }),
+	              _react2.default.createElement('input', { value: this.state.name, onChange: this.onNameChange.bind(this), type: 'text', name: 'name', id: 'name', placeholder: 'Name', required: 'required' }),
 	              _react2.default.createElement(
 	                'label',
 	                { htmlFor: 'name' },
@@ -41438,7 +41468,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'form-field' },
-	              _react2.default.createElement('input', { value: this.state.email, onChange: this.onEmailChange.bind(this), type: 'email', name: 'email', id: 'email', placeholder: 'Email:', required: 'required' }),
+	              _react2.default.createElement('input', { value: this.state.email, onChange: this.onEmailChange.bind(this), type: 'email', name: 'email', id: 'email', placeholder: 'Email', required: 'required' }),
 	              _react2.default.createElement(
 	                'label',
 	                { htmlFor: 'email' },
@@ -41448,11 +41478,11 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'form-field' },
-	              _react2.default.createElement('input', { value: this.state.mobile, onChange: this.onMobileChange.bind(this), type: 'text', name: 'mobile', id: 'mobile', placeholder: 'Phone:', required: 'required' }),
+	              _react2.default.createElement('input', { value: this.state.phone, onChange: this.onPhoneChange.bind(this), type: 'text', name: 'phone', id: 'phone', placeholder: 'Phone', required: 'required' }),
 	              _react2.default.createElement(
 	                'label',
-	                { htmlFor: 'mobile' },
-	                'Mobile:'
+	                { htmlFor: 'phone' },
+	                'Phone:'
 	              )
 	            )
 	          )
@@ -41467,7 +41497,7 @@
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
 	    props: props,
-	    contact: state.contact || { name: '', email: '', mobile: '' }
+	    contact: state.contact || { name: '', email: '', phone: '' }
 	  };
 	};
 
@@ -41540,6 +41570,11 @@
 	  }
 
 	  _createClass(Start, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.removeFooter();
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
 	      var rating = nextProps.rating,
@@ -41664,6 +41699,11 @@
 	  }
 
 	  _createClass(SelectUnit, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.showFooter();
+	    }
+	  }, {
 	    key: 'filterResults',
 	    value: function filterResults(e) {
 	      this.props.deactivateFooter();
@@ -41759,6 +41799,8 @@
 	  value: true
 	});
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -41777,96 +41819,121 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-	var End = function End(_ref) {
-	  var state = _ref.state;
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	  var generatedOutput = function generatedOutput() {
-	    var output = {};
+	var End = function (_Component) {
+	  _inherits(End, _Component);
 
-	    output['rating'] = state.rating;
-	    output['response_text'] = state.feedback;
-	    output['respondent'] = state.contact;
-	    output['disliked_aspects'] = [];
+	  function End() {
+	    _classCallCheck(this, End);
 
-	    output['disliked_aspects'] = state.choosen_aspects && state.choosen_aspects.map(function (aspect) {
-	      var newObject = {
-	        aspect: '',
-	        selected_options: []
-	      };
+	    return _possibleConstructorReturn(this, (End.__proto__ || Object.getPrototypeOf(End)).call(this));
+	  }
 
-	      newObject['aspect'] = aspect.split('-').map(function (s) {
-	        return s.charAt(0).toUpperCase() + s.slice(1);
-	      }).join(' ');
+	  _createClass(End, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.removeFooter();
+	    }
+	  }, {
+	    key: 'generatedOutput',
+	    value: function generatedOutput() {
+	      var _this2 = this;
 
-	      newObject['selected_options'] = state.choosen_aspects_options && state.choosen_aspects_options[aspect] && state.choosen_aspects_options[aspect].map(function (optionIndex) {
-	        return _defineProperty({}, optionIndex + 1, state.aspects_options[aspect][optionIndex]);
+	      var output = {};
+
+	      output['rating'] = this.props.state.rating;
+	      output['response_text'] = this.props.state.feedback;
+	      output['respondent'] = this.props.state.contact;
+	      output['disliked_aspects'] = [];
+
+	      output['disliked_aspects'] = this.props.state.choosen_aspects && this.props.state.choosen_aspects.map(function (aspect) {
+	        var newObject = {
+	          aspect: '',
+	          selected_options: {}
+	        };
+
+	        newObject['aspect'] = aspect.split('-').map(function (s) {
+	          return s.charAt(0).toUpperCase() + s.slice(1);
+	        }).join(' ');
+
+	        _this2.props.state.choosen_aspects_options && _this2.props.state.choosen_aspects_options[aspect] && _this2.props.state.choosen_aspects_options[aspect].forEach(function (optionIndex) {
+	          newObject.selected_options[optionIndex + 1] = _this2.props.state.aspects_options[aspect][optionIndex];
+	        });
+
+	        return newObject;
 	      });
 
-	      return newObject;
-	    });
-
-	    setTimeout(function () {
-	      fetch('http://35.154.105.198/survey/' + state.selectedUnit.survey_id, {
-	        method: 'POST',
-	        headers: {
-	          'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify(output)
-	      }).then(function () {
-	        // setTimeout(() => {
-	        //   window.location = '/';
-	        // }, 5000);
-	      }).catch(function (err) {
-	        // setTimeout(() => {
-	        //   window.location = '/';
-	        // }, 5000);
-	        console.log(output);
-	        console.log(err);
-	      });
-	    }, 10);
-	  };
-
-	  return _react2.default.createElement(
-	    'section',
-	    { className: 'end-slide' },
-	    _react2.default.createElement(
-	      'div',
-	      { className: 'main-form' },
-	      _react2.default.createElement(
-	        'div',
-	        { className: 'question-view' },
+	      setTimeout(function () {
+	        fetch('http://35.154.105.198/survey/' + _this2.props.state.selectedUnit.survey_id, {
+	          method: 'POST',
+	          headers: {
+	            'Content-Type': 'application/json'
+	          },
+	          body: JSON.stringify(output)
+	        }).then(function () {
+	          setTimeout(function () {
+	            window.location = '/';
+	          }, 5000);
+	        }).catch(function (err) {
+	          setTimeout(function () {
+	            window.location = '/';
+	          }, 5000);
+	          console.log(output);
+	          console.log(err);
+	        });
+	      }, 10);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'section',
+	        { className: 'end-slide' },
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Thanks a lot for your feedback.'
-	        ),
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          'Please visit ',
+	          'div',
+	          { className: 'main-form' },
 	          _react2.default.createElement(
-	            'b',
-	            null,
-	            state.selectedUnit.unit_name
+	            'div',
+	            { className: 'question-view' },
+	            _react2.default.createElement(
+	              'h1',
+	              null,
+	              'Thanks a lot for your feedback.'
+	            ),
+	            _react2.default.createElement(
+	              'h1',
+	              null,
+	              'Please visit ',
+	              _react2.default.createElement(
+	                'b',
+	                null,
+	                this.props.unit_name
+	              ),
+	              ' again!'
+	            )
 	          ),
-	          ' again!'
+	          _react2.default.createElement(
+	            'pre',
+	            null,
+	            this.generatedOutput()
+	          )
 	        )
-	      ),
-	      _react2.default.createElement(
-	        'pre',
-	        null,
-	        generatedOutput()
-	      )
-	    )
-	  );
-	};
+	      );
+	    }
+	  }]);
+
+	  return End;
+	}(_react.Component);
 
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
-	    state: state
+	    state: state,
+	    unit_name: state.selectedUnit.unit_name
 	  };
 	};
 

@@ -5,33 +5,41 @@ import * as actionCreators from '../actions';
 
 import TitleView from './titleView';
 
-const End = ({state}) => {
+class End extends Component {
 
-  let generatedOutput = () => {
+  constructor() {
+    super();
+  }
+
+  componentWillMount() {
+    this.props.removeFooter();
+  }
+
+  generatedOutput() {
     let output = {};
 
-    output['rating'] = state.rating;
-    output['response_text'] = state.feedback;
-    output['respondent'] = state.contact;
+    output['rating'] = this.props.state.rating;
+    output['response_text'] = this.props.state.feedback;
+    output['respondent'] = this.props.state.contact;
     output['disliked_aspects'] = [];
 
-    output['disliked_aspects'] = state.choosen_aspects && state.choosen_aspects.map((aspect) => {
+    output['disliked_aspects'] = this.props.state.choosen_aspects && this.props.state.choosen_aspects.map((aspect) => {
       let newObject = {
         aspect: '',
-        selected_options: []
+        selected_options: {}
       };
 
       newObject['aspect'] = aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ');
 
-      newObject['selected_options'] =  state.choosen_aspects_options && state.choosen_aspects_options[aspect] && state.choosen_aspects_options[aspect].map((optionIndex) => {
-        return { [optionIndex+1]: state.aspects_options[aspect][optionIndex] }
+      this.props.state.choosen_aspects_options && this.props.state.choosen_aspects_options[aspect] && this.props.state.choosen_aspects_options[aspect].forEach((optionIndex) => {
+        newObject.selected_options[optionIndex+1] = this.props.state.aspects_options[aspect][optionIndex];
       });
 
       return newObject;
     });
 
     setTimeout(() => {
-      fetch(`http://35.154.105.198/survey/${state.selectedUnit.survey_id}`, {
+      fetch(`http://35.154.105.198/survey/${this.props.state.selectedUnit.survey_id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -39,14 +47,14 @@ const End = ({state}) => {
         body: JSON.stringify(output)
       })
       .then(() => {
-        // setTimeout(() => {
-        //   window.location = '/';
-        // }, 5000);
+        setTimeout(() => {
+          window.location = '/';
+        }, 5000);
       })
       .catch((err) => {
-        // setTimeout(() => {
-        //   window.location = '/';
-        // }, 5000);
+        setTimeout(() => {
+          window.location = '/';
+        }, 5000);
         console.log(output);
         console.log(err);
       })
@@ -56,30 +64,32 @@ const End = ({state}) => {
 
   }
 
-
-  return (
-    <section className="end-slide">
-      <div className="main-form">
-        <div className="question-view">
-          <h1>
-            Thanks a lot for your feedback.
-          </h1>
-          <h1>
-            Please visit <b>{state.selectedUnit.unit_name}</b> again!
-          </h1>
+  render() {
+    return (
+      <section className="end-slide">
+        <div className="main-form">
+          <div className="question-view">
+            <h1>
+              Thanks a lot for your feedback.
+            </h1>
+            <h1>
+              Please visit <b>{this.props.unit_name}</b> again!
+            </h1>
+          </div>
+          <pre>
+            {this.generatedOutput()}
+          </pre>
         </div>
-        <pre>
-          {generatedOutput()}
-        </pre>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  }
 }
 
 
 const mapStateToProps = (state, props) => {
   return {
-    state
+    state,
+    unit_name: state.selectedUnit.unit_name
   }
 };
 

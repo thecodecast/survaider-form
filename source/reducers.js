@@ -39,6 +39,12 @@ export const reducer = (state = initialState, { type, payload }) => {
     case 'app/deactivateFooter':
       return merge(state, { isFooterActive: false })
       break;
+    case 'app/removeFooter':
+      return merge(state, { displayFooter: false })
+      break;
+    case 'app/showFooter':
+      return merge(state, { displayFooter: true })
+      break;
     case 'app/dataLoaded':
       return payload.data;
       break;
@@ -81,8 +87,8 @@ export const reducer = (state = initialState, { type, payload }) => {
     case 'app/onContactEmailChange':
       return merge(state, { contact: merge( state.contact, { email: payload.email } ) } );
       break;
-    case 'app/onContactMobileChange':
-      return merge(state, { contact: merge( state.contact, { mobile: payload.mobile } ) } );
+    case 'app/onContactPhoneChange':
+      return merge(state, { contact: merge( state.contact, { phone: payload.phone } ) } );
       break;
     default:
       return state;

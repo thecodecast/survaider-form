@@ -19,6 +19,11 @@ class AspectResponse extends Component{
     }
   }
 
+  componentWillMount() {
+    this.props.showFooter();
+    this.props.deactivateFooter();
+  }
+
   componentDidMount(){
     if (this.props.rating > 3) {
       this.setState({
@@ -67,10 +72,10 @@ class AspectResponse extends Component{
           <TitleView title={this.state.isPositive ? this.props.positiveTitle : this.props.negativeTitle} />
           <div className="response-view">
             <div className="sub-question-view">
-              <h2>What did you not like about?</h2>
+              { /*<h2>What did you not like about?</h2>
               <div className="option-hollow">
                 <span>{this.props.params.aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ')}</span>
-              </div>
+              </div> */ }
               <div className="sub-response-view">
                 <div className="radio-options-group">
                   {optionsViews}

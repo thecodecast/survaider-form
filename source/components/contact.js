@@ -14,8 +14,14 @@ class Contact extends Component{
     this.state = {
       name: '',
       email: '',
-      mobile: ''
+      phone: ''
     }
+  }
+
+
+  componentWillMount() {
+    this.props.showFooter();
+    this.props.activateFooter();
   }
 
   componentDidMount(){
@@ -25,14 +31,14 @@ class Contact extends Component{
     this.setState({
       name: this.props.contact.name,
       email: this.props.contact.email,
-      mobile: this.props.contact.mobile
+      phone: this.props.contact.phone
     });
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.contact.name.length > 0 && nextProps.contact.email.length > 0 && nextProps.contact.mobile.length > 0) {
-      this.props.activateFooter();
-    }
+    // if (nextProps.contact.name.length > 0 && nextProps.contact.email.length > 0 && nextProps.contact.phone.length > 0) {
+    //   this.props.activateFooter();
+    // }
   }
 
   onNameChange(e){
@@ -40,9 +46,9 @@ class Contact extends Component{
       name: e.target.value
     });
     this.props.onContactNameChange(e.target.value);
-    if (e.target.value.length === 0) {
-      this.props.deactivateFooter();
-    }
+    // if (e.target.value.length === 0) {
+    //   this.props.deactivateFooter();
+    // }
   }
 
   onEmailChange(e){
@@ -50,19 +56,19 @@ class Contact extends Component{
       email: e.target.value
     });
     this.props.onContactEmailChange(e.target.value);
-    if (e.target.value.length === 0) {
-      this.props.deactivateFooter();
-    }
+    // if (e.target.value.length === 0) {
+    //   this.props.deactivateFooter();
+    // }
   }
 
-  onMobileChange(e){
+  onPhoneChange(e){
     this.setState({
-      mobile: e.target.value
+      phone: e.target.value
     });
-    this.props.onContactMobileChange(e.target.value);
-    if (e.target.value.length === 0) {
-      this.props.deactivateFooter();
-    }
+    this.props.onContactPhoneChange(e.target.value);
+    // if (e.target.value.length === 0) {
+    //   this.props.deactivateFooter();
+    // }
   }
 
   render(){
@@ -71,16 +77,16 @@ class Contact extends Component{
         <div className="main-form">
           <div className="contact-form">
             <div className="form-field">
-              <input value={this.state.name} onChange={this.onNameChange.bind(this)} type="text" name="name" id="name" placeholder="Name:" required="required" />
+              <input value={this.state.name} onChange={this.onNameChange.bind(this)} type="text" name="name" id="name" placeholder="Name" required="required" />
               <label htmlFor="name">Name:</label>
             </div>
             <div className="form-field">
-              <input value={this.state.email} onChange={this.onEmailChange.bind(this)} type="email" name="email" id="email" placeholder="Email:" required="required" />
+              <input value={this.state.email} onChange={this.onEmailChange.bind(this)} type="email" name="email" id="email" placeholder="Email" required="required" />
               <label htmlFor="email">Email:</label>
             </div>
             <div className="form-field">
-              <input value={this.state.mobile} onChange={this.onMobileChange.bind(this)} type="text" name="mobile" id="mobile" placeholder="Phone:" required="required" />
-              <label htmlFor="mobile">Mobile:</label>
+              <input value={this.state.phone} onChange={this.onPhoneChange.bind(this)} type="text" name="phone" id="phone" placeholder="Phone" required="required" />
+              <label htmlFor="phone">Phone:</label>
             </div>
           </div>
         </div>
@@ -94,7 +100,7 @@ class Contact extends Component{
 const mapStateToProps = (state, props) => {
   return {
     props,
-    contact: state.contact || {name:'', email:'', mobile: ''}
+    contact: state.contact || {name:'', email:'', phone: ''}
   }
 };
 

@@ -16,6 +16,12 @@ class ChooseAspects extends Component{
     super();
   }
 
+
+  componentWillMount() {
+    this.props.showFooter();
+    this.props.deactivateFooter();
+  }
+
   componentWillReceiveProps(nextProps){
     if (nextProps.choosen_aspects.length !== 0) {
       nextProps.activateFooter();
@@ -28,7 +34,7 @@ class ChooseAspects extends Component{
     }
     nextProps.setNextLink(nextLink);
   }
-  
+
   render(){
 
     let previous_aspects = this.props.choosen_aspects.map((s) => { return s.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ') });
@@ -44,7 +50,7 @@ class ChooseAspects extends Component{
     return (
       <section className="survaider-home-main">
         <div className="main-form">
-          <TitleView title="I am so sorry to hear that what went wrong?" />
+          <TitleView title={this.props.title} />
           <div className="response-view options-response">
             <div className="options-group">
               {aspectViews}
@@ -60,7 +66,8 @@ class ChooseAspects extends Component{
 const mapStateToProps = (state) => {
   return {
     aspects: selectors.getAspects(state),
-    choosen_aspects: selectors.getChoosenAspects(state)
+    choosen_aspects: selectors.getChoosenAspects(state),
+    title: state.aspect_question_negative
   }
 };
 

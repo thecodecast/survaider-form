@@ -23,7 +23,6 @@ class Footer extends Component{
         showSpinner: false
       });
       this.props.router.push(this.props.nextLink);
-      this.props.deactivateFooter();
     }, 1000);
   }
 
@@ -33,6 +32,10 @@ class Footer extends Component{
       <div className="bounce2"></div>
       <div className="bounce3"></div>
     </div>;
+
+    if (!this.props.displayFooter) {
+      return null;
+    }
 
     return (
       <footer className="survaider-home-footer clearfix">
@@ -49,7 +52,8 @@ const mapStateToProps = (state, props) => {
   return {
     props,
     isFooterActive: state.isFooterActive,
-    nextLink: state.nextLink
+    nextLink: state.nextLink,
+    displayFooter: state.displayFooter
   }
 };
 

@@ -17,7 +17,6 @@ const Container = ({isParent}) => {
 
   let indexRoute = <IndexRoute component={Start} />
   let startRoute = '';
-  let footer =  <Footer router={browserHistory} />;
 
   if (isParent) {
     indexRoute = <IndexRoute component={SelectUnit} />;
@@ -25,11 +24,6 @@ const Container = ({isParent}) => {
   }
 
   window.bh = browserHistory;
-
-
-  if (browserHistory.getCurrentLocation().pathname === "/thank-you") {
-    footer = '';
-  }
 
   return (
     <div className="survaider-home">
@@ -46,7 +40,7 @@ const Container = ({isParent}) => {
           <Route path="*" component={NotFound} />
         </Route>
       </Router>
-      {footer}
+      <Footer router={browserHistory} />
     </div>
   );
 }
