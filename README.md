@@ -1,5 +1,19 @@
 ## Use
+
 git clone
+
 npm install
-npm build
+
+
+
+Dev
+
 npm start
+
+
+
+Prod
+
+npm run build
+
+//upload to the server
