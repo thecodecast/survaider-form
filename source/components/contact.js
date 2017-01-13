@@ -29,11 +29,20 @@ class Contact extends Component{
     });
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.contact.name.length > 0 && nextProps.contact.email.length > 0 && nextProps.contact.mobile.length > 0) {
+      this.props.activateFooter();
+    }
+  }
+
   onNameChange(e){
     this.setState({
       name: e.target.value
     });
     this.props.onContactNameChange(e.target.value);
+    if (e.target.value.length === 0) {
+      this.props.deactivateFooter();
+    }
   }
 
   onEmailChange(e){
@@ -41,6 +50,9 @@ class Contact extends Component{
       email: e.target.value
     });
     this.props.onContactEmailChange(e.target.value);
+    if (e.target.value.length === 0) {
+      this.props.deactivateFooter();
+    }
   }
 
   onMobileChange(e){
@@ -48,6 +60,9 @@ class Contact extends Component{
       mobile: e.target.value
     });
     this.props.onContactMobileChange(e.target.value);
+    if (e.target.value.length === 0) {
+      this.props.deactivateFooter();
+    }
   }
 
   render(){

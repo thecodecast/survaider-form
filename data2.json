@@ -1,5 +1,5 @@
 {
-    "is_parent": true,
+    "is_parent": false,
     "units_question": "Which hotel did you visit?",
     "units_placeholder_text": "Enter hotel name here",
     "units": [

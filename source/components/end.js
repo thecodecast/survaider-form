@@ -39,14 +39,14 @@ const End = ({state}) => {
         body: JSON.stringify(output)
       })
       .then(() => {
-        setTimeout(() => {
-          window.location = '/';
-        }, 5000);
+        // setTimeout(() => {
+        //   window.location = '/';
+        // }, 5000);
       })
       .catch((err) => {
-        setTimeout(() => {
-          window.location = '/';
-        }, 5000);
+        // setTimeout(() => {
+        //   window.location = '/';
+        // }, 5000);
         console.log(output);
         console.log(err);
       })
@@ -65,7 +65,7 @@ const End = ({state}) => {
             Thanks a lot for your feedback.
           </h1>
           <h1>
-            Please visit <b>Sterling Holidays</b> again!
+            Please visit <b>{state.selectedUnit.unit_name}</b> again!
           </h1>
         </div>
         <pre>

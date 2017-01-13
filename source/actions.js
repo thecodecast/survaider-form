@@ -26,6 +26,18 @@ export const dataLoaded = (data) => {
   }
 };
 
+export const activateFooter = () => {
+  return {
+    type: 'app/activateFooter'
+  }
+};
+
+export const deactivateFooter = () => {
+  return {
+    type: 'app/deactivateFooter'
+  }
+};
+
 export const questionRated = (rating = 0) => {
   return {
     type: 'app/questionRated',

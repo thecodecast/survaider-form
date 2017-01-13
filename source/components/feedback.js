@@ -27,11 +27,20 @@ class Feedback extends Component{
     });
   }
 
+  componentWillReceiveProps(nextProps){
+    this.checkFooter(nextProps.feedback);
+  }
+
   onChange(e){
     this.setState({
       feedback: e.target.value
     });
     this.props.giveFeedback(e.target.value);
+  }
+
+  checkFooter(feedback){
+    if (feedback.length > 0) this.props.activateFooter();
+    else this.props.deactivateFooter();
   }
 
   render(){

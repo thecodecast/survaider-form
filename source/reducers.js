@@ -8,6 +8,7 @@ let initialState = {
   choosen_aspects: [],
   choosen_aspects_options: {},
   rating: 0,
+  isFooterActive: false,
   selectedUnit: {
     unit_name: '',
     survey_id: ''
@@ -31,6 +32,12 @@ export const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'app/setNextLink':
       return merge(state, { nextLink: payload.nextLink })
+      break;
+    case 'app/activateFooter':
+      return merge(state, { isFooterActive: true })
+      break;
+    case 'app/deactivateFooter':
+      return merge(state, { isFooterActive: false })
       break;
     case 'app/dataLoaded':
       return payload.data;
@@ -69,13 +76,13 @@ export const reducer = (state = initialState, { type, payload }) => {
       return merge(state, { ['selectedUnit']: payload.selectedUnit })
       break;
     case 'app/onContactNameChange':
-      return merge(state, { ['contact']: merge( state.contact, { name: payload.name } ) } );
+      return merge(state, { contact: merge( state.contact, { name: payload.name } ) } );
       break;
     case 'app/onContactEmailChange':
-      return merge(state, { ['contact']: merge( state.contact, { email: payload.email } ) } );
+      return merge(state, { contact: merge( state.contact, { email: payload.email } ) } );
       break;
     case 'app/onContactMobileChange':
-      return merge(state, { ['contact']: merge( state.contact, { mobile: payload.mobile } ) } );
+      return merge(state, { contact: merge( state.contact, { mobile: payload.mobile } ) } );
       break;
     default:
       return state;

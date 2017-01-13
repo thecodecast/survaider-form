@@ -17,13 +17,18 @@ class ChooseAspects extends Component{
   }
 
   componentWillReceiveProps(nextProps){
+    if (nextProps.choosen_aspects.length !== 0) {
+      nextProps.activateFooter();
+    } else{
+      nextProps.deactivateFooter();
+    }
     let nextLink = '';
     if (nextProps.choosen_aspects.length > 0) {
       nextLink = `/aspects/${nextProps.choosen_aspects[0]}`;
     }
     nextProps.setNextLink(nextLink);
   }
-
+  
   render(){
 
     let previous_aspects = this.props.choosen_aspects.map((s) => { return s.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ') });

@@ -26,9 +26,15 @@ setTimeout(() => {
         choosen_aspects: [],
         choosen_aspects_options: {},
         rating: 0,
+        isFooterActive: false,
         selectedUnit: {
           unit_name: '',
           survey_id: ''
+        },
+        contact: {
+          name: '',
+          email: '',
+          mobile: ''
         }
       };
 

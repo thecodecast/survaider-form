@@ -575,6 +575,9 @@ template {
     position: relative; }
     .survaider-home-footer .form-action button {
       cursor: pointer; }
+    .survaider-home-footer .form-action[disabled] {
+      pointer-events: none;
+      opacity: 0.75; }
 
 .star-svg {
   display: inline-block;

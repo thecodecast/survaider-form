@@ -13,9 +13,31 @@ import Footer from './footer';
 class AspectResponse extends Component{
   constructor(){
     super();
+
+    this.state = {
+      isPositive: false
+    }
+  }
+
+  componentDidMount(){
+    if (this.props.rating > 3) {
+      this.setState({
+        isPositive: true
+      });
+    }
   }
 
   componentWillReceiveProps(nextProps){
+    if (nextProps.choosen_aspect_options.length !== 0) {
+      nextProps.activateFooter();
+    } else{
+      nextProps.deactivateFooter();
+    }
+    if (nextProps.rating > 3) {
+      this.setState({
+        isPositive: true
+      });
+    }
     let indexOfThis = indexOf(this.props.params.aspect, nextProps.choosen_aspects);
     let nextLink = '';
     if (indexOfThis+1 === nextProps.choosen_aspects.length) {
@@ -42,13 +64,13 @@ class AspectResponse extends Component{
     return (
       <section className="survaider-home-main">
         <div className="main-form">
-          <TitleView title={this.props.positiveTitle} />
+          <TitleView title={this.state.isPositive ? this.props.positiveTitle : this.props.negativeTitle} />
           <div className="response-view">
             <div className="sub-question-view">
-              <h2>{this.props.negativeTitle}</h2>
-              { /*<div className="option-hollow">
-                <span>{props.params.aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ')}</span>
-              </div> */}
+              <h2>What did you not like about?</h2>
+              <div className="option-hollow">
+                <span>{this.props.params.aspect.split('-').map((s)=>{ return s.charAt(0).toUpperCase() + s.slice(1) }).join(' ')}</span>
+              </div>
               <div className="sub-response-view">
                 <div className="radio-options-group">
                   {optionsViews}
@@ -70,7 +92,8 @@ const mapStateToProps = (state, props) => {
     choosen_aspect_options: selectors.getChoosenAspectOptions(state, props.params.aspect),
     positiveTitle: selectors.getChoosenAspectQuestionPositive(state, props.params.aspect),
     negativeTitle: selectors.getChoosenAspectQuestionNegative(state, props.params.aspect),
-    props
+    props,
+    rating: state.rating
   }
 };
 

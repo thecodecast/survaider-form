@@ -20,6 +20,7 @@ class SelectUnit extends Component {
   }
 
   filterResults(e){
+    this.props.deactivateFooter();
     if (!this.state.showResults) {
       this.setState({
         showResults: true
@@ -35,6 +36,7 @@ class SelectUnit extends Component {
 
   selectUnit(unit_name, survey_id){
     this.props.selectUnit({ unit_name, survey_id });
+    if (unit_name.length > 0 && survey_id.length > 0) this.props.activateFooter();
     this.setState({
       selectedUnitName: unit_name,
       showResults: false

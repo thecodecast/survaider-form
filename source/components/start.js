@@ -28,8 +28,7 @@ class Start extends Component {
       else nextLink = '/aspects';
     }
 
-    if (rating > 0) {}
-    setNextLink(nextLink);
+    this.props.router.push(nextLink);
   }
 
   onStarClick(index){

@@ -91,9 +91,15 @@
 	      choosen_aspects: [],
 	      choosen_aspects_options: {},
 	      rating: 0,
+	      isFooterActive: false,
 	      selectedUnit: {
 	        unit_name: '',
 	        survey_id: ''
+	      },
+	      contact: {
+	        name: '',
+	        email: '',
+	        mobile: ''
 	      }
 	    };
 
@@ -24301,6 +24307,7 @@
 	  choosen_aspects: [],
 	  choosen_aspects_options: {},
 	  rating: 0,
+	  isFooterActive: false,
 	  selectedUnit: {
 	    unit_name: '',
 	    survey_id: ''
@@ -24329,6 +24336,12 @@
 	  switch (type) {
 	    case 'app/setNextLink':
 	      return (0, _ramda.merge)(state, { nextLink: payload.nextLink });
+	      break;
+	    case 'app/activateFooter':
+	      return (0, _ramda.merge)(state, { isFooterActive: true });
+	      break;
+	    case 'app/deactivateFooter':
+	      return (0, _ramda.merge)(state, { isFooterActive: false });
 	      break;
 	    case 'app/dataLoaded':
 	      return payload.data;
@@ -24365,13 +24378,13 @@
 	      return (0, _ramda.merge)(state, _defineProperty({}, 'selectedUnit', payload.selectedUnit));
 	      break;
 	    case 'app/onContactNameChange':
-	      return (0, _ramda.merge)(state, _defineProperty({}, 'contact', (0, _ramda.merge)(state.contact, { name: payload.name })));
+	      return (0, _ramda.merge)(state, { contact: (0, _ramda.merge)(state.contact, { name: payload.name }) });
 	      break;
 	    case 'app/onContactEmailChange':
-	      return (0, _ramda.merge)(state, _defineProperty({}, 'contact', (0, _ramda.merge)(state.contact, { email: payload.email })));
+	      return (0, _ramda.merge)(state, { contact: (0, _ramda.merge)(state.contact, { email: payload.email }) });
 	      break;
 	    case 'app/onContactMobileChange':
-	      return (0, _ramda.merge)(state, _defineProperty({}, 'contact', (0, _ramda.merge)(state.contact, { mobile: payload.mobile })));
+	      return (0, _ramda.merge)(state, { contact: (0, _ramda.merge)(state.contact, { mobile: payload.mobile }) });
 	      break;
 	    default:
 	      return state;
@@ -33254,6 +33267,18 @@
 	  };
 	};
 
+	var activateFooter = exports.activateFooter = function activateFooter() {
+	  return {
+	    type: 'app/activateFooter'
+	  };
+	};
+
+	var deactivateFooter = exports.deactivateFooter = function deactivateFooter() {
+	  return {
+	    type: 'app/deactivateFooter'
+	  };
+	};
+
 	var questionRated = exports.questionRated = function questionRated() {
 	  var rating = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
 
@@ -33435,6 +33460,7 @@
 
 	  var indexRoute = _react2.default.createElement(_reactRouter.IndexRoute, { component: _start2.default });
 	  var startRoute = '';
+	  var footer = _react2.default.createElement(_footer2.default, { router: _reactRouter.browserHistory });
 
 	  if (isParent) {
 	    indexRoute = _react2.default.createElement(_reactRouter.IndexRoute, { component: _selectUnit2.default });
@@ -33442,6 +33468,10 @@
 	  }
 
 	  window.bh = _reactRouter.browserHistory;
+
+	  if (_reactRouter.browserHistory.getCurrentLocation().pathname === "/thank-you") {
+	    footer = '';
+	  }
 
 	  return _react2.default.createElement(
 	    'div',
@@ -33463,7 +33493,7 @@
 	        _react2.default.createElement(_reactRouter.Route, { path: '*', component: _2.default })
 	      )
 	    ),
-	    _react2.default.createElement(_footer2.default, { router: _reactRouter.browserHistory })
+	    footer
 	  );
 	};
 
@@ -40642,6 +40672,7 @@
 	          showSpinner: false
 	        });
 	        _this2.props.router.push(_this2.props.nextLink);
+	        _this2.props.deactivateFooter();
 	      }, 1000);
 	    }
 	  }, {
@@ -40660,33 +40691,7 @@
 	        { className: 'survaider-home-footer clearfix' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'footer-info pull-left' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'info-svg' },
-	            _react2.default.createElement(
-	              'svg',
-	              { width: '60', height: '60' },
-	              _react2.default.createElement(
-	                'g',
-	                { transform: 'scale(4)' },
-	                _react2.default.createElement('path', { style: { fill: '#030104' }, d: 'M7,0.935c-3.866,0-7,2.463-7,5.5c0,1.438,0.703,2.749,1.854,3.729 c-0.044,0.955-0.242,2.239-0.942,2.901c1.337,0,2.706-0.88,3.518-1.514c0.796,0.248,1.663,0.384,2.57,0.384c3.866,0,7-2.463,7-5.5 S10.866,0.935,7,0.935z M4,7.935c-0.553,0-1-0.447-1-1s0.447-1,1-1s1,0.447,1,1S4.553,7.935,4,7.935z M7,7.935 c-0.553,0-1-0.447-1-1s0.447-1,1-1s1,0.447,1,1S7.553,7.935,7,7.935z M10,7.935c-0.553,0-1-0.447-1-1s0.447-1,1-1s1,0.447,1,1 S10.553,7.935,10,7.935z' })
-	              )
-	            )
-	          )
-	        ),
-	        this.props.skipLink && _react2.default.createElement(
-	          'div',
-	          { className: 'form-action skip-action pull-right' },
-	          _react2.default.createElement(
-	            Link,
-	            { to: this.props.skipLink, className: 'hollow-button' },
-	            'Skip'
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { onClick: this.navigate.bind(this), className: 'form-action pull-right' },
+	          { onClick: this.navigate.bind(this), className: 'form-action pull-right', disabled: !this.props.isFooterActive },
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'next-action hollow-button' },
@@ -40704,6 +40709,7 @@
 	var mapStateToProps = function mapStateToProps(state, props) {
 	  return {
 	    props: props,
+	    isFooterActive: state.isFooterActive,
 	    nextLink: state.nextLink
 	  };
 	};
@@ -40832,12 +40838,22 @@
 	      });
 	    }
 	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      this.checkFooter(nextProps.feedback);
+	    }
+	  }, {
 	    key: 'onChange',
 	    value: function onChange(e) {
 	      this.setState({
 	        feedback: e.target.value
 	      });
 	      this.props.giveFeedback(e.target.value);
+	    }
+	  }, {
+	    key: 'checkFooter',
+	    value: function checkFooter(feedback) {
+	      if (feedback.length > 0) this.props.activateFooter();else this.props.deactivateFooter();
 	    }
 	  }, {
 	    key: 'render',
@@ -40983,6 +40999,11 @@
 	  _createClass(ChooseAspects, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.choosen_aspects.length !== 0) {
+	        nextProps.activateFooter();
+	      } else {
+	        nextProps.deactivateFooter();
+	      }
 	      var nextLink = '';
 	      if (nextProps.choosen_aspects.length > 0) {
 	        nextLink = '/aspects/' + nextProps.choosen_aspects[0];
@@ -41134,12 +41155,36 @@
 	  function AspectResponse() {
 	    _classCallCheck(this, AspectResponse);
 
-	    return _possibleConstructorReturn(this, (AspectResponse.__proto__ || Object.getPrototypeOf(AspectResponse)).call(this));
+	    var _this = _possibleConstructorReturn(this, (AspectResponse.__proto__ || Object.getPrototypeOf(AspectResponse)).call(this));
+
+	    _this.state = {
+	      isPositive: false
+	    };
+	    return _this;
 	  }
 
 	  _createClass(AspectResponse, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      if (this.props.rating > 3) {
+	        this.setState({
+	          isPositive: true
+	        });
+	      }
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.choosen_aspect_options.length !== 0) {
+	        nextProps.activateFooter();
+	      } else {
+	        nextProps.deactivateFooter();
+	      }
+	      if (nextProps.rating > 3) {
+	        this.setState({
+	          isPositive: true
+	        });
+	      }
 	      var indexOfThis = (0, _ramda.indexOf)(this.props.params.aspect, nextProps.choosen_aspects);
 	      var nextLink = '';
 	      if (indexOfThis + 1 === nextProps.choosen_aspects.length) {
@@ -41168,7 +41213,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'main-form' },
-	          _react2.default.createElement(_titleView2.default, { title: this.props.positiveTitle }),
+	          _react2.default.createElement(_titleView2.default, { title: this.state.isPositive ? this.props.positiveTitle : this.props.negativeTitle }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'response-view' },
@@ -41178,7 +41223,18 @@
 	              _react2.default.createElement(
 	                'h2',
 	                null,
-	                this.props.negativeTitle
+	                'What did you not like about?'
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'option-hollow' },
+	                _react2.default.createElement(
+	                  'span',
+	                  null,
+	                  this.props.params.aspect.split('-').map(function (s) {
+	                    return s.charAt(0).toUpperCase() + s.slice(1);
+	                  }).join(' ')
+	                )
 	              ),
 	              _react2.default.createElement(
 	                'div',
@@ -41206,7 +41262,8 @@
 	    choosen_aspect_options: selectors.getChoosenAspectOptions(state, props.params.aspect),
 	    positiveTitle: selectors.getChoosenAspectQuestionPositive(state, props.params.aspect),
 	    negativeTitle: selectors.getChoosenAspectQuestionNegative(state, props.params.aspect),
-	    props: props
+	    props: props,
+	    rating: state.rating
 	  };
 	};
 
@@ -41317,12 +41374,22 @@
 	      });
 	    }
 	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.contact.name.length > 0 && nextProps.contact.email.length > 0 && nextProps.contact.mobile.length > 0) {
+	        this.props.activateFooter();
+	      }
+	    }
+	  }, {
 	    key: 'onNameChange',
 	    value: function onNameChange(e) {
 	      this.setState({
 	        name: e.target.value
 	      });
 	      this.props.onContactNameChange(e.target.value);
+	      if (e.target.value.length === 0) {
+	        this.props.deactivateFooter();
+	      }
 	    }
 	  }, {
 	    key: 'onEmailChange',
@@ -41331,6 +41398,9 @@
 	        email: e.target.value
 	      });
 	      this.props.onContactEmailChange(e.target.value);
+	      if (e.target.value.length === 0) {
+	        this.props.deactivateFooter();
+	      }
 	    }
 	  }, {
 	    key: 'onMobileChange',
@@ -41339,6 +41409,9 @@
 	        mobile: e.target.value
 	      });
 	      this.props.onContactMobileChange(e.target.value);
+	      if (e.target.value.length === 0) {
+	        this.props.deactivateFooter();
+	      }
 	    }
 	  }, {
 	    key: 'render',
@@ -41477,8 +41550,7 @@
 	        if (rating > threshold) nextLink = '/feedback';else nextLink = '/aspects';
 	      }
 
-	      if (rating > 0) {}
-	      setNextLink(nextLink);
+	      this.props.router.push(nextLink);
 	    }
 	  }, {
 	    key: 'onStarClick',
@@ -41594,6 +41666,7 @@
 	  _createClass(SelectUnit, [{
 	    key: 'filterResults',
 	    value: function filterResults(e) {
+	      this.props.deactivateFooter();
 	      if (!this.state.showResults) {
 	        this.setState({
 	          showResults: true
@@ -41612,6 +41685,7 @@
 	    key: 'selectUnit',
 	    value: function selectUnit(unit_name, survey_id) {
 	      this.props.selectUnit({ unit_name: unit_name, survey_id: survey_id });
+	      if (unit_name.length > 0 && survey_id.length > 0) this.props.activateFooter();
 	      this.setState({
 	        selectedUnitName: unit_name,
 	        showResults: false
@@ -41742,13 +41816,13 @@
 	        },
 	        body: JSON.stringify(output)
 	      }).then(function () {
-	        setTimeout(function () {
-	          window.location = '/';
-	        }, 5000);
+	        // setTimeout(() => {
+	        //   window.location = '/';
+	        // }, 5000);
 	      }).catch(function (err) {
-	        setTimeout(function () {
-	          window.location = '/';
-	        }, 5000);
+	        // setTimeout(() => {
+	        //   window.location = '/';
+	        // }, 5000);
 	        console.log(output);
 	        console.log(err);
 	      });
@@ -41776,7 +41850,7 @@
 	          _react2.default.createElement(
 	            'b',
 	            null,
-	            'Sterling Holidays'
+	            state.selectedUnit.unit_name
 	          ),
 	          ' again!'
 	        )
