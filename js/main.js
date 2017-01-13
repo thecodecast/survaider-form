@@ -79,7 +79,7 @@
 
 	  var url = 'http://35.154.105.198/survey/zdMYvl8onJWYo39bzLk';
 
-	  fetch('data2.json').then(function (res) {
+	  fetch(url).then(function (res) {
 	    return res.json();
 	  }).then(function (json) {
 
